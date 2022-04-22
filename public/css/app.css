@@ -1,0 +1,288 @@
+/*Import Variables*/
+@import url('variables.css');
+
+/*Import Reset: */
+@import url('reset.css');
+
+/*Import Media Query*/
+@import url('media_query.css');
+
+/*____________________________________________*\
+
+    Template Style
+\*____________________________________________*/
+
+
+/**/
+header, nav{
+    background: var(--rich-black-fogra-29);
+
+}
+
+/*navbar*/
+.navbar {
+    padding: 0 var(--p-x);
+}
+
+/*Main container Style*/
+.container{
+    max-width: 1500px;
+    margin:    auto;
+}
+
+/*navbar style*/
+.navbar{
+    height:             100px;
+    display:            flex;
+    justify-content:    space-between;
+    align-items:        center;
+}
+
+
+/*logo*/
+.navbar-logo{
+    height: 50%;
+}
+/*Small Screen menu button style*/
+.navbar-menu-btn{
+    display: none;
+}
+
+/*navbar navigation style:*/
+nav { margin-right: 200px;}
+
+
+.navbar-nav{
+    display: flex;
+}
+
+.navbar li:not(:last-child){ margin-right: 60px;}
+
+.navbar-link {
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-5);
+}
+
+.navbar-link:hover{
+    color: var(--light-azure);
+}
+
+.navbar-actions{
+    display: flex;
+    align-items: center;
+}
+
+.navbar-form{
+    position: relative;
+    margin-right: 50px;
+}
+
+.navbar-form-search{
+    background:     var(--oxford-blue);
+    width:          100%;
+    padding:        12px 20px;
+    border-radius:  15px;
+    color:          var(--off-white);
+    font-size:      var(--fs-sm);
+    font-weight:    var(--fw-5);
+}
+
+.navbar-form-btn{
+    background:  var(--oxford-blue);
+    position:   absolute;
+    top:        calc(50% - 10px);
+    right:      10px;
+}
+
+.navbar-form-btn ion-icon, navbar-form-search{
+    font-size:              20px;
+    color:                  var(--light-azure);
+    --ionicon-stroke-width: 50px;
+}
+
+.navbar-form-btn:hover ion-icon,
+.navbar-form-search::placeholder {
+
+    color: var(--off-white);
+}
+
+.navbar-form-close,
+.navbar-search-btn{
+    display: none;
+}
+
+.navbar-signin{
+    display: flex;
+    align-items: center;
+    font-size: var(--fs-md);
+}
+
+
+.navbar-signin ion-icon{
+    font-size: 25px;
+    color: var(--light-azure);
+    margin-left: 5px;
+    --ionicon-strock-width: 30px;
+}
+
+.navbar-signin:hover span{
+    color: var(--light-azure);
+
+}
+
+.section-heading{
+    font-size: var(--section-heading);
+    font-weight: var(--fw-5);
+    margin-bottom: 30px;
+}
+
+
+footer {
+    background: var(--rich-black-fogra-23);
+    padding: 80px var(--p-x) 40px;
+
+}
+
+
+.footer-content{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid var(--oxford-blue-50);
+    padding-bottom: 80px;
+}
+
+.footer-brand{
+    max-width: 250px;
+    margin-right: 130px;
+
+}
+
+
+.footer-logo{
+    width: 100px;
+    margin-bottom: 20px;
+}
+
+.slogan{
+    font-size: var(--fs-sm);
+    line-height: 20px;
+    margin-bottom: 40px;
+}
+
+.social-links a{
+    display: inline-block;
+}
+
+.social-links ion-icon{
+    font-size: 25px;
+    margin-right: 20px;
+}
+
+.footer-links{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 50px;
+    align-items: flex-end;
+}
+
+.link-heading{
+    margin-bottom: 20px;
+}
+
+.link-items{
+    font-size: var(--fs-sm);
+    margin-bottom: 7px;
+}
+
+.ul .link-items:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.link-items:hover a {
+    color: var(--light-azure);
+}
+
+.footer-copyright{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 40px;
+}
+
+.footer-copyright p,
+.wrapper a{
+    font-size: var(--fs-sm);
+}
+
+.wrapper a:hover{
+    color: var(--light-azure);
+}
+
+.wrapper {
+    display: flex;
+}
+
+.wrapper a:not(:last-child){
+    margin-right: 30px;
+}
+
+
+
+/********* Responsive 1200px**********/
+
+@media screen and (max-width: 1200px)  {
+    :root{
+        --p-x: 40px;
+    }
+
+    .banner{
+        margin-top: 100px;
+    }
+
+    .banner-card .card-title{
+        font-size: 2.5em;
+    }
+
+    .category-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
+/********* Resposive 1024px ***********/
+@media screen and (max-width: 1024px){
+    :root{
+        --p-x: 60px;
+    }
+
+    .banner-card .card-content{
+        bottom: 40px;
+        left: 60px;
+        right: 60px;
+    }
+}
+
+/********* Resposive 768px ***********/
+@media screen and (max-width: 768px){
+    :root{
+        --p-x: 40px;
+    }
+
+    .banner {
+        display: none;
+    }
+
+    .movies{
+        margin-top: 120px;
+    }
+
+    .filter-bar{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .filter-bar select{
+        margin-bottom: 20px;
+    }
+}
