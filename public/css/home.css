@@ -1,0 +1,437 @@
+/*____________________________________________*\
+
+    Home Page Style: Banner - Movies Section - Category - Actors
+\*____________________________________________*/
+
+
+/************ Banner ****************/
+.banner {
+    padding: 0 var(--p-x);
+    margin-bottom: 60px;
+}
+
+.banner-card{
+
+    position: relative;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 20px;
+    cursor: pointer;
+
+
+}
+
+.banner-img{
+    object-position: top;
+    transition: var(--transition-fast);
+
+}
+
+.banner-card:hover .banner-img{
+    transform: scale(1.05);
+}
+
+.banner-card .card-content{
+    position: absolute;
+    right: 80px;
+    bottom: 60px;
+    left: 80px;
+}
+
+.banner-card .card-info{
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.banner-card .card-info div{
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.banner-card .card-info ion-icon{
+    font-size: 20px;
+    color: var(--light-azure);
+    margin-right: 5px;
+}
+
+.banner-card .card-info span {
+    font-weight: var(--fw-8);
+}
+
+.banner-card .card-title{
+    font-size: 3em;
+    color: var(--white);
+    text-shadow: 2px 0 2px #0007;
+}
+
+/************ Movies Section ****************/
+
+.movies{
+    padding: 0 var(--p-x);
+    margin-bottom: 60px;
+}
+
+/*filter Bar*/
+
+
+.filter-bar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--oxford-blue);
+    padding: 20px 30px;
+    border-radius: 20px;
+    margin-bottom: 30px;
+}
+
+.filter-bar select{
+    color: var(--white);
+    font-size: var(--fs-sm);
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.filter-bar option{
+    background: var(--oxford-blue);
+}
+
+.filter-radios {
+    position: relative;
+    background: var(--rich-black-fogra-29);
+    padding: 10px;
+    border-radius: 15px;
+}
+
+.filter-radios input{
+    display: none;
+}
+
+.filter-radios label{
+    position: relative;
+    margin: 0 10px;
+    font-size: var(--fs-sm);
+    user-select: none;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.filter-radios input:checked + label,
+.filter-radios label:hover{
+    color: var(--light-azure);
+}
+
+input ~ .checked-radio-bg{
+    --width: 85px;
+    --left : 5px;
+
+    background: var(--oxford-blue);
+    position: absolute;
+    top: 5px;
+    left: var(--left);
+    bottom: 5px;
+    width: var(--width);
+    border-radius: 10px;
+
+    transition: var(--transition-super-fast);
+}
+
+#trending-btn:checked ~ .checked-radio-bg{
+    --width: 85px;
+    --left : 89px;
+}
+
+#newest-btn:checked ~ .checked-radio-bg{
+    --width: 80px;
+    --left : 170px;
+}
+
+/*movies grid*/
+
+.movies-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.movie-card{
+    transition: var(--transition-fast);
+    --scale: 0.8;
+
+    cursor: pointer;
+
+}
+
+.movie-card .card-head{
+    position: relative;
+    height: 250px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    overflow: hidden;
+
+}
+.movie-card .card-img{
+    transition: var(--transition-fast);
+}
+
+.movie-card:hover .card-img{
+    transform: scale(1.1);
+}
+
+.movie-card .card-overlay{
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    backdrop-filter: blur(5px);
+
+}
+
+.movie-card:hover .card-overlay{
+
+    opacity: 1;
+}
+
+.movie-card .bookmark,
+.movie-card .rating{
+    position: absolute;
+    top: 15px;
+    padding: 6px;
+    border-radius: 10px;
+    color: var(--light-azure);
+    transform: scale(var(--scale));
+}
+
+.movie-card .bookmark{
+    background: var(--oxford-blue);
+    left: 15px;
+}
+
+.movie-card .bookmark:hover{
+    color: var(--yellow);
+}
+
+.movie-card .rating{
+    display: flex;
+    align-items: center;
+    right: 15px;
+    background: var(--oxford-blue-50);
+}
+
+.movie-card .rating span{
+    color: var(--white);
+    font-size: 13px;
+    font-weight: var(--fw-5);
+    margin-left: 5px;
+}
+
+.movie-card ion-icon{
+    font-size: 16px;
+    display: block;
+    --ionicon-stroke-width: 50px;
+}
+
+.movie-card .genre{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(var(--scale));
+    font-size: var(--fs-lg);
+    font-weight: var(--fw-6);
+    text-shadow: 1px 1px black;
+    text-align: center;
+}
+
+.movie-card .button-view-details{
+
+    background: var(--Medium-electric-blue);
+    position: absolute;
+    padding: 7px 2px;
+    width: 140px;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(var(--scale));
+    font-size: var(--fs-md);
+    font-weight: var(--fw-5);
+    text-shadow: 0.2px 0.2px black;
+    text-align: center;
+    border-radius: 5px;
+    border-style: double;
+}
+
+.movie-card .button-view-details:hover{
+    transition: var(--transition-fast);
+    border-color: yellow;
+}
+
+.movie-card:hover :is(.bookmark, .rating, .genre) {
+    --scale: 1;
+}
+
+.movie-card .card-title{
+    font-size: var(--fs-md);
+    font-weight: var(--fw-5);
+    margin-bottom: 5px;
+}
+
+.movie-card:hover .card-title{
+    color: var(--light-azure);
+}
+
+.movie-card .card-info{
+    display: flex;
+    font-size: var(--fs-x-sm);
+}
+
+.load-more{
+    background: var(--oxford-blue);
+    display: block;
+    padding: 20px 50px;
+    margin: auto;
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-5);
+    border-radius: 15px;
+}
+
+.load-more:hover{
+    background: var(--light-azure);
+}
+
+.hide-class{
+    display: none;
+
+}
+
+
+/************ Category Section ****************/
+
+.category{
+    padding: 0 var(--p-x);
+    margin-top: 20px;
+    margin-bottom: 60px;
+}
+
+.category-grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
+.category-card{
+    position: relative;
+    height: 150px;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.category-card::after{
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 20%, #000A);
+}
+
+.card-img{
+    transition: var(--transition-fast);
+}
+.category-card:hover .card-img{
+    transform: scale(1.1);
+}
+
+.category-card .name,
+.category-card .total{
+    position: absolute;
+    bottom: 20px;
+    color: var(--white);
+    z-index: 20;
+}
+
+.category-card .name{
+    left: 20px;
+    font-size: 20px;
+}
+
+.category-card .total{
+    right: 20px;
+    font-size: 18px;
+    background: var(--oxford-blue-50);
+    padding: 5px 8px;
+    border-radius: 8px;
+
+}
+
+.category-card:hover .name{
+    color: var(--light-azure);
+}
+
+/************ Actors Section ****************/
+
+.actors{
+    padding: 0 var(--p-x);
+    margin-top: 20px;
+    margin-bottom: 60px;
+}
+
+.actors-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.actor-card{
+    transition: var(--transition-fast);
+    --scale: 0.8;
+    cursor: pointer;
+}
+
+.actor-card .card-head{
+    position: relative;
+    height: 200px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.actor-card .name{
+    font-size: var(--fs-md);
+    font-weight: var(--fw-5);
+    margin-bottom: 5px;
+}
+
+.card-img{
+    transition: var(--transition-fast);
+}
+.actor-card:hover .card-img{
+    transform: scale(1.1);
+}
+
+.actor-card .card-info{
+    display: flex;
+    font-size: var(--fs-x-sm);
+}
+
+.actor-card .name{
+    left: 20px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.actor-card .total{
+    position: absolute;
+    bottom: 20px;
+    color: var(--white);
+    z-index: 20;
+    right: 20px;
+    font-size: 18px;
+    background: var(--oxford-blue-50);
+    padding: 5px 8px;
+    border-radius: 8px;
+
+}
+
+.actor-card:hover .name{
+    color: var(--light-azure);
+}
