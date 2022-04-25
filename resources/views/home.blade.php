@@ -9,6 +9,8 @@
 @endpush
 
 
+@section('pageTitle', 'WTW - Home Page')
+
 @section('content')
 
     <!--Banner section: Random Movie-->
@@ -40,7 +42,15 @@
 
                     <div class="">
                         <ion-icon name="time"></ion-icon>
-                        <span>2h 54min</span>
+                        <span>
+                            @php
+                                $runtime = $bannerMovie->getProperty('runtime');
+                                $hours = intval($runtime/60);
+                                $min = $runtime%60;
+
+                                echo $hours . 'h' . $min .'min';
+                            @endphp
+                        </span>
                     </div>
 
                     <div class="">
@@ -126,10 +136,10 @@
 
                             <div class="genre">
                                 @php
-                                    $genres = \App\DAOs\Movies::getMovieGenresByMovieId($featuredMovie->get('movie')['id']);
+                                    $featuredMoviegenres = \App\DAOs\Movies::getMovieGenresByMovieId($featuredMovie->get('movie')['id']);
                                 @endphp
 
-                                @foreach($genres as $genre)
+                                @foreach($featuredMoviegenres as $genre)
                                     {{$genre->get('genre')}}
                                 @endforeach
                             </div>
@@ -159,332 +169,160 @@
         <div class="movies-grid" id="trending-movies">
 
             <!--Movie-->
-            <div class="movie-card">
+            @foreach($trendingMovies as $trendingMovie)
+                <div class="movie-card">
+                    <div class="card-head">
+                        <img src="{{$trendingMovie->get('movie')->getProperty('poster')}}" alt="" class="card-img">
+                        <div class="card-overlay">
+                            <div class="bookmark">
+                                <ion-icon name="bookmark-outline"></ion-icon>
+                            </div>
+                            <div class="rating">
+                                <ion-icon name="star-outline"></ion-icon>
+                                <span>{{$trendingMovie->get('movie')->getProperty('imdbRating')}}</span>
+                            </div>
+                            <div class="genre">
+                                @php
+                                    $trendingMoviegenres = \App\DAOs\Movies::getMovieGenresByMovieId($trendingMovie->get('movie')['id']);
+                                @endphp
 
-                <div class="card-head">
+                                @foreach($trendingMoviegenres as $genre)
+                                    {{$genre->get('genre')}}
+                                @endforeach
+                            </div>
 
-                    <img src="images/movies/eternals.jpg" alt="" class="card-img">
+                            <div class="view-details">
+                                <span class="button-view-details">View Details</span>
+                            </div>
 
-                    <div class="card-overlay">
-
-                        <div class="bookmark">
-                            <ion-icon name="bookmark-outline"></ion-icon>
                         </div>
+                    </div>
 
-                        <div class="rating">
-                            <ion-icon name="star-outline"></ion-icon>
-                            <span>6.4</span>
+                    <div class="card-body">
+                        <h3 class="card-title"> {{$trendingMovie->get('movie')->getProperty('title')}} </h3>
+
+                        <div class="card-info">
+                            <div class="card-year"> {{$trendingMovie->get('movie')->getProperty('year')}} </div>
+
                         </div>
-
-                        <div class="genre">
-                            Action Adventure Fantasy
-                        </div>
-
-                        <div class="view-details">
-                            <span class="button-view-details">View Details</span>
-                        </div>
-
                     </div>
                 </div>
+            @endforeach
 
-                <div class="card-body">
-                    <h3 class="card-title"> Eternals </h3>
-
-                    <div class="card-info">
-                        <div class="card-year"> 2021 </div>
-
-                    </div>
-                </div>
-
-            </div>
-
-            <!--Movie-->
-            <div class="movie-card">
-
-                <div class="card-head">
-
-                    <img src="images/movies/gladiator.jpg" alt="" class="card-img">
-
-                    <div class="card-overlay">
-
-                        <div class="bookmark">
-                            <ion-icon name="bookmark-outline"></ion-icon>
-                        </div>
-
-                        <div class="rating">
-                            <ion-icon name="star-outline"></ion-icon>
-                            <span>8.5</span>
-                        </div>
-
-                        <div class="genre">
-                            Action Adventure Drama
-                        </div>
-
-                        <div class="view-details">
-                            <span class="button-view-details">View Details</span>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="card-body">
-                    <h3 class="card-title"> Gladiator </h3>
-
-                    <div class="card-info">
-                        <div class="card-year"> 2000 </div>
-
-                    </div>
-                </div>
-
-            </div>
-
-            <!--Movie-->
-            <div class="movie-card">
-
-                <div class="card-head">
-
-                    <img src="images/movies/interstaller.jpg" alt="" class="card-img">
-
-                    <div class="card-overlay">
-
-                        <div class="bookmark">
-                            <ion-icon name="bookmark-outline"></ion-icon>
-                        </div>
-
-                        <div class="rating">
-                            <ion-icon name="star-outline"></ion-icon>
-                            <span>8.3</span>
-                        </div>
-
-                        <div class="genre">
-                            Drama Sci-Fi Thriller
-                        </div>
-
-                        <div class="view-details">
-                            <span class="button-view-details">View Details</span>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="card-body">
-                    <h3 class="card-title"> Interstellar </h3>
-
-                    <div class="card-info">
-                        <div class="card-year"> 2014 </div>
-
-                    </div>
-                </div>
-
-            </div>
-
-            <!--Movie-->
-            <div class="movie-card">
-
-                <div class="card-head">
-
-                    <img src="images/movies/LOTR.jpg" alt="" class="card-img">
-
-                    <div class="card-overlay">
-
-                        <div class="bookmark">
-                            <ion-icon name="bookmark-outline"></ion-icon>
-                        </div>
-
-                        <div class="rating">
-                            <ion-icon name="star-outline"></ion-icon>
-                            <span>6.8</span>
-                        </div>
-
-                        <div class="genre">
-                            Adventure Drama Fantasy
-                        </div>
-
-                        <div class="view-details">
-                            <span class="button-view-details">View Details</span>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="card-body">
-                    <h3 class="card-title"> The Lord of the Rings: The Fellowship of the Ring </h3>
-
-                    <div class="card-info">
-                        <div class="card-year"> 2001 </div>
-
-                    </div>
-                </div>
-
-            </div>
         </div>
 
         <!-- Movies Grid Newest-->
         <div class="movies-grid" id="newest-movies">
 
             <!--Movie-->
-            <div class="movie-card">
+            @foreach($newestMovies as $newestMovie)
+                <div class="movie-card">
 
-                <div class="card-head">
+                    <div class="card-head">
 
-                    <img src="https://image.tmdb.org/t/p/w440_and_h660_face/wR5HZWdVpcXx9sevV1bQi7rP4op.jpg" alt="" class="card-img">
+                        <img src="{{$newestMovie->get('movie')->getProperty('poster')}}" alt="" class="card-img">
 
-                    <div class="card-overlay">
+                        <div class="card-overlay">
 
-                        <div class="bookmark">
-                            <ion-icon name="bookmark-outline"></ion-icon>
+                            <div class="bookmark">
+                                <ion-icon name="bookmark-outline"></ion-icon>
+                            </div>
+
+                            <div class="rating">
+                                <ion-icon name="star-outline"></ion-icon>
+                                <span>{{$newestMovie->get('movie')->getProperty('imdbRating')}}</span>
+                            </div>
+
+                            <div class="genre">
+                                @php
+                                    $newestMoviegenres = \App\DAOs\Movies::getMovieGenresByMovieId($newestMovie->get('movie')['id']);
+                                @endphp
+
+                                @foreach($newestMoviegenres as $genre)
+                                    {{$genre->get('genre')}}
+                                @endforeach
+                            </div>
+
+                            <div class="view-details">
+                                <span class="button-view-details">View Details</span>
+                            </div>
+
                         </div>
-
-                        <div class="rating">
-                            <ion-icon name="star-outline"></ion-icon>
-                            <span>8.9</span>
-                        </div>
-
-                        <div class="genre">
-                            Drama Crime Thriller
-                        </div>
-
-                        <div class="view-details">
-                            <span class="button-view-details">View Details</span>
-                        </div>
-
                     </div>
-                </div>
 
-                <div class="card-body">
-                    <h3 class="card-title"> Fight Club </h3>
+                    <div class="card-body">
+                        <h3 class="card-title"> {{$newestMovie->get('movie')->getProperty('title')}} </h3>
 
-                    <div class="card-info">
-                        <div class="card-year"> 1999 </div>
+                        <div class="card-info">
+                            <div class="card-year"> {{$newestMovie->get('movie')->getProperty('year')}} </div>
 
+                        </div>
                     </div>
+
                 </div>
-
-            </div>
-
-            <!--Movie-->
-            <div class="movie-card">
-
-                <div class="card-head">
-
-                    <img src="https://image.tmdb.org/t/p/w440_and_h660_face/yAaf4ybTENKPicqzsAoW6Emxrag.jpg" alt="" class="card-img">
-
-                    <div class="card-overlay">
-
-                        <div class="bookmark">
-                            <ion-icon name="bookmark-outline"></ion-icon>
-                        </div>
-
-                        <div class="rating">
-                            <ion-icon name="star-outline"></ion-icon>
-                            <span>8.0</span>
-                        </div>
-
-                        <div class="genre">
-                            Crime Comedy Drama
-                        </div>
-
-                        <div class="view-details">
-                            <span class="button-view-details">View Details</span>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="card-body">
-                    <h3 class="card-title"> Pulp Fiction </h3>
-
-                    <div class="card-info">
-                        <div class="card-year"> 1994 </div>
-
-                    </div>
-                </div>
-
-            </div>
-
-            <!--Movie-->
-            <div class="movie-card">
-
-                <div class="card-head">
-
-                    <img src="https://image.tmdb.org/t/p/w440_and_h660_face/7sf9CgJz30aXDvrg7DYYUQ2U91T.jpg" alt="" class="card-img">
-
-                    <div class="card-overlay">
-
-                        <div class="bookmark">
-                            <ion-icon name="bookmark-outline"></ion-icon>
-                        </div>
-
-                        <div class="rating">
-                            <ion-icon name="star-outline"></ion-icon>
-                            <span>8.3</span>
-                        </div>
-
-                        <div class="genre">
-                            Action Drama War
-                        </div>
-
-                        <div class="view-details">
-                            <span class="button-view-details">View Details</span>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="card-body">
-                    <h3 class="card-title"> 12 Angry Men </h3>
-
-                    <div class="card-info">
-                        <div class="card-year"> 1957 </div>
-
-                    </div>
-                </div>
-
-            </div>
-
-            <!--Movie-->
-            <div class="movie-card">
-
-                <div class="card-head">
-
-                    <img src="https://image.tmdb.org/t/p/w440_and_h660_face/eWivEg4ugIMAd7d4uWI37b17Cgj.jpg" alt="" class="card-img">
-
-                    <div class="card-overlay">
-
-                        <div class="bookmark">
-                            <ion-icon name="bookmark-outline"></ion-icon>
-                        </div>
-
-                        <div class="rating">
-                            <ion-icon name="star-outline"></ion-icon>
-                            <span>6.8</span>
-                        </div>
-
-                        <div class="genre">
-                            Action Adventure Sci-Fi
-                        </div>
-
-                        <div class="view-details">
-                            <span class="button-view-details">View Details</span>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="card-body">
-                    <h3 class="card-title"> The Good, The Bad and The Ugly </h3>
-
-                    <div class="card-info">
-                        <div class="card-year"> 1966 </div>
-
-                    </div>
-                </div>
-
-            </div>
-
+            @endforeach
         </div>
 
         <!--Load more button-->
         <button class="load-more">LOAD MORE</button>
     </section>
+
+
+    <!--Categories Section: -->
+    <section class="category" id="category">
+
+        <h2 class="section-heading"> Category</h2>
+
+        <div class="category-grid">
+
+            <!--category-->
+
+            @foreach($genres as $genre)
+                <div class="category-card">
+
+                    <img src="{{$genre->get('genre')->getProperty('img')}}" alt="" class="card-img">
+
+                    <div class="name"> {{$genre->get('genre')->getProperty('name')}} </div>
+
+                    <div class="total"> {{$genre->get('nbrMovies')}} </div>
+                </div>
+            @endforeach
+
+        </div>
+
+    </section>
+
+    <!--Actors Section: -->
+    <section class="actors" id="actors">
+
+        <h2 class="section-heading"> Actors</h2>
+
+        <div class="actors-grid">
+
+            <!--actor-->
+
+            @foreach($actors as $actor)
+                <div class="actor-card">
+                    <div class="card-head">
+                        <img src="{{$actor->get('actor')->getProperty('poster')}}" alt="" class="card-img">
+                    </div>
+                    <div class="card-body">
+                        <div class="name"> {{$actor->get('actor')->getProperty('name')}} </div>
+                    </div>
+                </div>
+            @endforeach
+
+
+
+        </div>
+
+
+
+        <!--Load more button-->
+        <button class="load-more">LOAD MORE</button>
+
+    </section>
+
+
+
 @endsection

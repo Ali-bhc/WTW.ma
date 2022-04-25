@@ -1,7 +1,7 @@
 <?php
 namespace App\DAOs;
 
-use \Laudis\Neo4j\Bolt\Session as Neo4j;
+    use \Laudis\Neo4j\Bolt\Session as Neo4j;
 
 class Movies
 {
@@ -13,7 +13,7 @@ class Movies
     {
         $query = "match(movie:Movie) where ID(movie) = $id
                   match(genre:Genre)<-[:IN_GENRE]-(movie)
-                  return genre.name as genre;";
+                  return genre.name as genre LIMIT 4";
         return app(Neo4j::class)->run($query);
     }
 
@@ -39,6 +39,22 @@ class Movies
 
         $query = "Match(movie:Movie) return movie order by movie.imdbRating desc limit $n";
 
+        return app(Neo4j::class)->run($query);
+    }
+
+    /**
+     *  Function returns n most visited movies (trending)
+    */
+    public static function getNMostVisitedMovies($n){
+        $query = "Match(movie:Movie) return movie order by movie.nbrVisits desc limit $n";
+        return app(Neo4j::class)->run($query);
+    }
+
+    /**
+     * Function returns n newest movies
+    */
+    public static function getNNewestMovies($n){
+        $query = "Match(movie:Movie) return movie order by movie.year desc limit $n";
         return app(Neo4j::class)->run($query);
     }
 
