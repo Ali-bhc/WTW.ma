@@ -58,5 +58,19 @@ class Movies
         return app(Neo4j::class)->run($query);
     }
 
+    /**
+     * Function returns 25 movies for n page
+     */
+    public static function getMoviesPage($n)
+    {
+        $nbr_movies= ($n-1)*28;
+        $query = "Match(movie:Movie) return movie skip $nbr_movies limit 28;";
+        return app(Neo4j::class)->run($query);
+    }
 
+    public static function getMoviesCount()
+    {
+        $query="Match(movie:Movie) return count(movie) as nbr";
+        return app(Neo4j::class)->run($query)[0]->get('nbr');
+    }
 }
