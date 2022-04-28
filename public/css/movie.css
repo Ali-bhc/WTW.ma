@@ -1,0 +1,254 @@
+body{
+    max-width: 1500px;
+}
+
+.movie-detail .container {
+    margin-top: 60px;
+    position: relative;
+    display: flex;
+    margin-left: 7%;
+    max-width: 83%;
+}
+
+.movie-detail-content{
+    margin-left: 2%;
+    padding-right: 50px;
+}
+
+.movie-detail-banner {
+    background: var(--gunmetal-1);
+    max-width: 300px;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 30px;
+
+}
+
+
+.movie-detail-banner img {
+    object-fit: cover;
+}
+
+.meta-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 15px 25px;
+}
+
+.detail-title{
+    margin-bottom: 5%;
+}
+.movie-detail .meta-wrapper { margin-bottom: 30px; }
+
+
+.badge-wrapper,
+.ganre-wrapper,
+.date-time {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px 10px;
+}
+
+.ganre-wrapper > a {
+    color: var(--gainsboro);
+    font-size: var(--fs-9);
+    font-weight: var(--fw-500);
+    transition: var(--transition-1);
+}
+
+.ganre-wrapper a:hover {
+    color: var(--light-azure);
+}
+
+
+.date-time { gap: 15px; }
+
+.date-time > div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--gainsboro);
+    font-size: var(--fs-9);
+    font-weight: var(--fw-500);
+}
+
+.date-time ion-icon {
+    --ionicon-stroke-width: 50px;
+    color: var(--citrine);
+}
+
+.storyline {
+    color: var(--gray-x);
+    font-size: var(--fs-9);
+    font-weight: var(--fw-500);
+    line-height: 1.8;
+    margin-bottom: 40px;
+}
+
+
+
+.movies-grid{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    gap: 10px;
+}
+
+.movie-card{
+    transition: var(--transition-fast);
+    --scale: 0.8;
+    cursor: pointer;
+
+}
+
+.movie-card .card-head{
+    position: relative;
+    height: 120px;
+    width: 80px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    overflow: hidden;
+
+}
+.movie-card .card-img{
+    transition: var(--transition-fast);
+}
+
+.movie-card:hover .card-img{
+    transform: scale(1.1);
+}
+
+
+
+.movie-card .card-title{
+    font-size: 12px;
+    margin-bottom: 3px;
+}
+
+.movie-card:hover .card-title{
+    color: var(--light-azure);
+}
+
+.movie-card .card-info{
+    display: flex;
+    font-size: var(--fs-x-sm);
+}
+
+
+.line{
+    display: flex;
+    margin-top: 20px;
+
+}
+
+.line span{
+    margin-left: 10px;
+}
+
+.simlar-title{
+    margin-bottom: 15px;
+}
+
+/************ Actors Section ****************/
+
+.actors{
+    padding: 0 var(--p-x);
+    margin-top: 20px;
+    margin-bottom: 60px;
+}
+
+.actors-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.actor-card{
+    transition: var(--transition-fast);
+    --scale: 0.8;
+    cursor: pointer;
+}
+
+.actor-card .card-head{
+    position: relative;
+    height: 200px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.actor-card .name{
+    font-size: var(--fs-md);
+    font-weight: var(--fw-5);
+    margin-bottom: 5px;
+}
+
+.card-img{
+    transition: var(--transition-fast);
+}
+.actor-card:hover .card-img{
+    transform: scale(1.1);
+}
+
+.actor-card .card-info{
+    display: flex;
+    font-size: var(--fs-x-sm);
+}
+
+.actor-card .name{
+    left: 20px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.actor-card .total{
+    position: absolute;
+    bottom: 20px;
+    color: var(--white);
+    z-index: 20;
+    right: 20px;
+    font-size: 18px;
+    background: var(--oxford-blue-50);
+    padding: 5px 8px;
+    border-radius: 8px;
+
+}
+
+.actor-card:hover .name{
+    color: var(--light-azure);
+}
+
+.movie-detail-banner{
+    size: 500px;
+}
+
+
+
+.movie-detail-banner ion-icon{
+    font-size: 30px;
+}
+
+.movie-detail-banner .bookmark{
+    position: absolute;
+    top: 20px;
+    padding: 6px;
+    border-radius: 10px;
+    color: var(--light-azure);
+    background: var(--oxford-blue);
+    left: 15px;
+    cursor: pointer;
+    opacity: 0;
+}
+
+.movie-detail-banner:hover .bookmark{
+    opacity: 1;
+}
+
+
+.bookmark:hover{
+    color: var(--yellow);
+
+}

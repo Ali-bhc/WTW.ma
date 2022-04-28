@@ -1,9 +1,11 @@
 <?php
 namespace App\DAOs;
 
+    use App\Providers\Neo4jServiceProvider;
     use \Laudis\Neo4j\Bolt\Session as Neo4j;
+    use Laudis\Neo4j\Client;
 
-class Movies
+    class Movies
 {
 
     /**
@@ -59,4 +61,30 @@ class Movies
     }
 
 
+    /**
+     * Function returns movie of the given id
+    */
+    public static function getMovieById($id){
+        $query = "match(movie:Movie) where ID(movie) = $id return movie";
+        return app(Neo4j::class)->run($query)[0];
+    }
+
+    /**
+     * Function increments number of visits of the given movie
+    */
+    public static function incrementNbrVisits($movieId){
+        $query = "match(movie:Movie) where ID(movie) = $movieId set movie.nbrVisits = movie.nbrVisits+1;";
+        app(Neo4j::class)->run($query);
+    }
+
+    /**
+     * Function returns n similar movies to the given movie id
+    */
+    public static function getNSimilarMovies($movieId, $n){
+        $query = "match (m:Movie) where ID(m) = $movieId
+                    match (m)-[:IN_GENRE]->(genre:Genre)
+                    match (movie:Movie)-[:IN_GENRE]->(genre) where ID(movie) <> ID(m)
+                    return movie limit $n";
+        return app(Neo4j::class)->run($query);
+    }
 }

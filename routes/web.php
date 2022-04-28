@@ -16,3 +16,5 @@ use App\Http\Controllers\HomeController;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/movie/{id}', [\App\Http\Controllers\MovieController::class, 'index'])->name('movie');

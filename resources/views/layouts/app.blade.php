@@ -4,7 +4,11 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>@yield('pageTitle')</title> <!--Should be the title of the current page-->
+        <!--Website Icon-->
+        <link rel="icon" href="{{asset('img/logo.png')}}">
+
+        <!--the title of the current page-->
+        <title>@yield('pageTitle')</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -37,7 +41,7 @@
 
 
                     <!--Logo-->
-                    <a href="#" class="navbar-logo">
+                    <a href="{{route('home')}}" class="navbar-logo">
                         <img src="{{asset('img/logo.png')}}" alt="">
                     </a>
 
@@ -94,7 +98,6 @@
             <!--MAIN Section-->
             <main>
                 @yield('content')
-
             </main>
             <!--End Main-->
 

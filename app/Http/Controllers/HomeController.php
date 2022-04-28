@@ -14,24 +14,24 @@ class HomeController extends Controller
         // banner movie data
         $bannerMovie = Movies::getRandomMovieWithCover();
         $bannerMovieGenres = Movies::getMovieGenresByMovieId($bannerMovie['id']);
+//
+//        // features movies data
+//        $featuredMovies = Movies::getNHighestRatedMovies(14);
+//
+//
+//        // Trending movies
+//        $trendingMovies = Movies::getNMostVisitedMovies(14);
+//
+//        // Newest movies
+//        $newestMovies = Movies::getNNewestMovies(14);
+//
+//        // Genres (Catégories)
+//        $genres = Genres::allGenresWithNbrOfMovies();
+//
+//        // Actors
+//        $actors = Actors::getNRandomActors(21);
 
-        // features movies data
-        $featuredMovies = Movies::getNHighestRatedMovies(14);
 
-        // Trending movies
-        $trendingMovies = Movies::getNMostVisitedMovies(14);
-
-        // Newest movies
-        $newestMovies = Movies::getNNewestMovies(14);
-
-        // Genres (Catégories)
-        $genres = Genres::allGenresWithNbrOfMovies();
-
-        // Actors
-        $actors = Actors::getNRandomActors(21);
-
-        return view('home', compact('bannerMovie', 'bannerMovieGenres',
-                                        'featuredMovies', 'trendingMovies', 'newestMovies',
-                                        'genres', 'actors'));
+        return view('home', compact('bannerMovie', 'bannerMovieGenres'));
     }
 }
