@@ -60,9 +60,17 @@
                     <!--Search-->
                     <div class="navbar-actions">
 
-                        <form action="#" class="navbar-form">
+                        <form action="#" class="navbar-form" autocomplete="off">
 
                             <input type="text" name="search" id="" placeholder="looking for something ?..." class="navbar-form-search">
+                            <div class="autocom-box">
+{{--                                <li>The Shawnshake Redemption</li>--}}
+{{--                                <li>Coco 2017</li>--}}
+{{--                                <li>La Vida es Bella</li>--}}
+{{--                                <li>It's a wonderful life</li>--}}
+{{--                                <li>Fight Club</li>--}}
+                            </div>
+
 
                             <button class="navbar-form-btn">
                                 <ion-icon name="search-outline"></ion-icon>
@@ -72,6 +80,8 @@
                             <button class="navbar-form-close">
                                 <ion-icon name="close-circle-outline"></ion-icon>
                             </button>
+
+
                         </form>
 
                         <!--
@@ -195,9 +205,17 @@
         <!--Template Scripts:-->
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-        <script src="{{ asset('js/app.js') }}"></script>
 
         @stack('scripts')
+
+
+        <!------->
+
+        <!-- unpkg CDN non-minified -->
+        <script src="https://unpkg.com/neo4j-driver"></script>
+
+
+        <script src="{{ asset('js/app.js') }}"></script>
 
 
     </body>

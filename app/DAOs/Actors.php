@@ -25,4 +25,15 @@ class Actors
         $query = "match(movie:Movie)<-[:ACTED_IN]-(actor:Person) where ID(movie) = $movieId return actor";
         return app(Neo4j::class)->run($query);
     }
+
+    /**
+     * Function returns similar Actors to the Actor given :
+     * Actors that played the most with the given actor
+     */
+    public static function getNSimilarActors($actorID, $n){
+        $query = "match(a:Actor) where ID(a) = $actorID
+                    match(actor:Actor)-[r:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(a)
+                    return actor , count(r) as CommonMovies order by CommonMovies desc LIMIT $n";
+        return app(Neo4j::class)->run($query);
+    }
 }

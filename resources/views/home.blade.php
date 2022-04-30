@@ -14,12 +14,6 @@
 
 @section('content')
 
-    @php
-     use App\DAOs\Movies;
-     use App\DAOs\Genres;
-     use App\DAOs\Actors;
-
-    @endphp
     <!--Banner section: Random Movie-->
     <section class="banner">
         <div class="banner-card" onclick='{{ 'window.location = "' . route('movie', $bannerMovie['id']). '";' }}'>
@@ -123,7 +117,7 @@
         <!-- Movies Grid Featured -->
         <div class="movies-grid" id="featured-movies">
 
-            @foreach(Movies::getNHighestRatedMovies(14) as $featuredMovie)
+            @foreach(\App\DAOs\Movies::getNHighestRatedMovies(14) as $featuredMovie)
                 <div class="movie-card" onclick='{{ 'window.location = "' . route('movie', $featuredMovie->get('movie')['id']). '";' }}'>
                     <div class="card-head">
 
@@ -175,7 +169,7 @@
         <div class="movies-grid" id="trending-movies">
 
             <!--Movie-->
-            @foreach(Movies::getNMostVisitedMovies(14) as $trendingMovie)
+            @foreach(\App\DAOs\Movies::getNMostVisitedMovies(14) as $trendingMovie)
                 <div class="movie-card" onclick='{{ 'window.location = "' . route('movie', $trendingMovie->get('movie')['id']). '";' }}'>
                     <div class="card-head">
                         <img src="{{$trendingMovie->get('movie')->getProperty('poster')}}" alt="" class="card-img">
@@ -221,7 +215,7 @@
         <div class="movies-grid" id="newest-movies">
 
             <!--Movie-->
-            @foreach(Movies::getNNewestMovies(14) as $newestMovie)
+            @foreach(\App\DAOs\Movies::getNNewestMovies(14) as $newestMovie)
                 <div class="movie-card" onclick='{{ 'window.location = "' . route('movie', $newestMovie->get('movie')['id']). '";' }}'>
 
                     <div class="card-head">
@@ -283,7 +277,7 @@
 
             <!--category-->
 
-            @foreach(Genres::allGenresWithNbrOfMovies() as $genre)
+            @foreach(\App\DAOs\Genres::allGenresWithNbrOfMovies() as $genre)
                 <div class="category-card">
 
                     <img src="{{$genre->get('genre')->getProperty('img')}}" alt="" class="card-img">
@@ -307,8 +301,8 @@
 
             <!--actor-->
 
-            @foreach(Actors::getNRandomActors(21) as $actor)
-                <div class="actor-card">
+            @foreach(\App\DAOs\Actors::getNRandomActors(21) as $actor)
+                <div class="actor-card" onclick='{{ 'window.location = "' . route('person', $actor->get('actor')['id']). '";' }}'>
                     <div class="card-head">
                         <img src="{{$actor->get('actor')->getProperty('poster')}}" alt="" class="card-img">
                     </div>

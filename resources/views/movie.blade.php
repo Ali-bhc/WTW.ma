@@ -11,7 +11,7 @@
 @endpush
 
 
-@section('pageTitle', 'Movie Title')
+@section('pageTitle', $movie->get('movie')->getProperty('title'))
 
 @php
     use App\DAOs\Actors;
@@ -77,7 +77,7 @@
                     IMDB Rating :
                     <span>
                         <ion-icon name="star-outline"></ion-icon>
-                        <span>8.9</span>
+                        <span>{{$movie->get('movie')->getProperty('imdbRating')}}</span>
                     </span>
                 </div>
 
@@ -158,7 +158,7 @@
 
             <!--Director-->
             @foreach(Directors::getMovieDirectors($id) as $director)
-                <div class="actor-card">
+                <div class="actor-card" onclick='{{ 'window.location = "' . route('person', $director->get('director')['id']). '";' }}'>
 
                     <div class="card-head">
                         <img src="{{$director->get('director')->getProperty('poster')}}" alt="" class="card-img">
@@ -182,7 +182,7 @@
 
             @foreach(Actors::getMovieActors($id) as $actor)
                 <!--Actor-->
-                <div class="actor-card">
+                <div class="actor-card" onclick='{{ 'window.location = "' . route('person', $actor->get('actor')['id']). '";' }}'>
                     <div class="card-head">
                         <img src="{{$actor->get('actor')->getProperty('poster')}}" alt="" class="card-img">
                     </div>

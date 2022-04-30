@@ -18,3 +18,5 @@ use App\Http\Controllers\HomeController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/movie/{id}', [\App\Http\Controllers\MovieController::class, 'index'])->name('movie');
+
+Route::get('/person/{id}', [\App\Http\Controllers\PersonController::class, 'index'])->name('person');

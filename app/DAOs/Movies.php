@@ -87,4 +87,26 @@ namespace App\DAOs;
                     return movie limit $n";
         return app(Neo4j::class)->run($query);
     }
+
+    /**
+     * Function returns all movies of the given person (acted in)
+    */
+    public static function getAllPersonActedInMovies($personId){
+        $query = "match(person:Person) where ID(person) = $personId
+                    match(person)-[:ACTED_IN]->(movie:Movie)
+                    return movie order by movie.year desc";
+        return app(Neo4j::class)->run($query);
+    }
+
+        /**
+         * Function returns all movies of the given person (Directed by)
+         */
+        public static function getAllPersonDirectedMovies($personId){
+            $query = "match(person:Person) where ID(person) = $personId
+                    match(person)-[:DIRECTED]->(movie:Movie)
+                    return movie";
+            return app(Neo4j::class)->run($query);
+        }
+
+
 }
