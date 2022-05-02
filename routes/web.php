@@ -15,8 +15,18 @@ use App\Http\Controllers\HomeController;
 |
 */
 
+Auth::routes();
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::post('/bookmark/{movieId}' , [HomeController::class, 'bookmark'])->name('bookmark');
+
+Route::post('/unBookmark/{movieId}' , [HomeController::class, 'UnBookmark'])->name('UnBookmark');
 
 Route::get('/movie/{id}', [\App\Http\Controllers\MovieController::class, 'index'])->name('movie');
 
 Route::get('/person/{id}', [\App\Http\Controllers\PersonController::class, 'index'])->name('person');
+
+

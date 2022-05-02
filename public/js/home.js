@@ -65,3 +65,21 @@ navbarMenuBtn.addEventListener("click", navIsActive);
 navbarSearchBtn.addEventListener("click", searchBarIsActive);
 
 navbarFormCloseBtn.addEventListener('click', searchBarIsActive)
+
+
+
+/***** Bookmarking ******/
+
+
+
+
+
+
+
+
+
+
+
+
+
+

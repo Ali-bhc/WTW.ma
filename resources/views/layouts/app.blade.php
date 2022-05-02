@@ -54,6 +54,8 @@
                             <li><a href="#" class="navbar-link">Trending</a></li>
                             <li><a href="#" class="navbar-link">Actors</a></li>
 
+
+
                         </ul>
                     </nav>
 
@@ -95,10 +97,27 @@
 
 
                     <!--Sign in-->
-                    <a href="#" class="navbar-signin">
-                        <span>Sign in</span>
-                        <ion-icon name="log-in-outline"></ion-icon>
-                    </a>
+                    @guest
+                        <a href="{{route('login')}}" class="navbar-signin">
+                            <span>Sign in</span>
+                            <ion-icon name="log-in-outline"></ion-icon>
+                        </a>
+                    @else
+                        <div class="dropdown-username">
+                            <button class="dropbtn">
+                                <span>{{Auth::user()->username}}</span>
+                            </button>
+                            <div class="dropdown-username-content">
+                                <a href="#">Profile</a>
+                                <form action="{{route('logout')}}" method="POST">
+                                    @csrf
+                                    <button type="submit">
+                                        {{ __('Logout') }}
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    @endguest
 
                 </div>
 

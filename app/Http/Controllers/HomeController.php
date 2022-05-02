@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 use App\DAOs\Actors;
 use App\DAOs\Genres;
 use App\DAOs\Movies;
+use App\DAOs\Users;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
     public function index()
     {
+
         // banner movie data
         $bannerMovie = Movies::getRandomMovieWithCover();
         $bannerMovieGenres = Movies::getMovieGenresByMovieId($bannerMovie['id']);
@@ -33,5 +37,28 @@ class HomeController extends Controller
 
 
         return view('home', compact('bannerMovie', 'bannerMovieGenres'));
+    }
+
+
+    public function bookmark($movieId){
+
+        $user = Auth::user();
+
+        if(!$user) // if user not connected redirect to login
+        {
+            return redirect()->route('login');
+        }
+
+
+        Users::bookmark($user->id, $movieId);
+        return redirect()->back();
+    }
+
+    public function UnBookmark($movieId){
+
+        $user = Auth::user();
+        Users::unBookmark($user->id, $movieId);
+
+        return redirect()->back();
     }
 }

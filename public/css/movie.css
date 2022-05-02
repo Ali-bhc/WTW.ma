@@ -13,6 +13,8 @@ body{
 .movie-detail-content{
     margin-left: 2%;
     padding-right: 50px;
+    width: 60%;
+    word-wrap: break-word;
 }
 
 .movie-detail-banner {
@@ -112,6 +114,7 @@ body{
 .movie-card .card-title{
     font-size: 12px;
     margin-bottom: 3px;
+    width: 80px;
 }
 
 .movie-card:hover .card-title{
@@ -132,6 +135,11 @@ body{
 
 .line span{
     margin-left: 10px;
+}
+
+.simlar-movies{
+    position: absolute;
+    right: 0;
 }
 
 .simlar-title{

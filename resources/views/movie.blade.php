@@ -17,6 +17,8 @@
     use App\DAOs\Actors;
     use App\DAOs\Directors;
     use App\DAOs\Movies;
+    use App\DAOs\Users;
+    use Illuminate\Support\Facades\Auth;
 
 @endphp
 
@@ -31,9 +33,21 @@
 
                 <div class="card-overlay">
 
-                    <div class="bookmark">
-                        <ion-icon name="bookmark-outline"></ion-icon>
-                    </div>
+                    @if(Auth::user() == null  || !Users::isBookmarked(Auth::user()->id, $movie->get('movie')['id'] ))
+                        <form action="{{route('bookmark', $movie->get('movie')['id'])}}" method="POST">
+                            @csrf
+                                <button type="submit" class="bookmark">
+                                    <ion-icon name="bookmark-outline"></ion-icon>
+                                </button>
+                        </form>
+                    @else
+                        <form action="{{route('UnBookmark', $movie->get('movie')['id'])}}" method="POST">
+                            @csrf
+                            <button type="submit" class="bookmark">
+                                <ion-icon name="checkmark-circle-outline"></ion-icon>
+                            </button>
+                        </form>
+                    @endif
 
                 </div>
             </div>

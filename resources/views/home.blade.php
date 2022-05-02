@@ -9,6 +9,9 @@
     <script src="{{asset('js/home.js')}}"></script>
 @endpush
 
+@php
+    use App\DAOs\Users;
+@endphp
 
 @section('pageTitle', 'WTW - Home Page')
 
@@ -125,9 +128,22 @@
 
                         <div class="card-overlay">
 
-                            <div class="bookmark">
-                                <ion-icon name="bookmark-outline"></ion-icon>
-                            </div>
+                            {{-- if user is not connected or he didn't bookmark this movie--}}
+                            @if(Auth::user() == null  || !Users::isBookmarked(Auth::user()->id, $featuredMovie->get('movie')['id'] ))
+                                <form action="{{route('bookmark', $featuredMovie->get('movie')['id'])}}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="bookmark">
+                                        <ion-icon name="bookmark-outline"></ion-icon>
+                                    </button>
+                                </form>
+                            @else
+                                <form action="{{route('UnBookmark', $featuredMovie->get('movie')['id'])}}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="bookmark">
+                                        <ion-icon name="checkmark-circle-outline"></ion-icon>
+                                    </button>
+                                </form>
+                            @endif
 
                             <div class="rating">
                                 <ion-icon name="star-outline"></ion-icon>
@@ -174,9 +190,25 @@
                     <div class="card-head">
                         <img src="{{$trendingMovie->get('movie')->getProperty('poster')}}" alt="" class="card-img">
                         <div class="card-overlay">
-                            <div class="bookmark">
-                                <ion-icon name="bookmark-outline"></ion-icon>
-                            </div>
+
+                            {{-- if user is not connected or he didn't bookmark this movie--}}
+                            @if(Auth::user() == null  || !Users::isBookmarked(Auth::user()->id, $trendingMovie->get('movie')['id'] ))
+                                <form action="{{route('bookmark', $trendingMovie->get('movie')['id'])}}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="bookmark">
+                                        <ion-icon name="bookmark-outline"></ion-icon>
+                                    </button>
+                                </form>
+                            @else
+                                <form action="{{route('UnBookmark', $trendingMovie->get('movie')['id'])}}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="bookmark">
+                                        <ion-icon name="checkmark-circle-outline"></ion-icon>
+                                    </button>
+                                </form>
+                            @endif
+
+
                             <div class="rating">
                                 <ion-icon name="star-outline"></ion-icon>
                                 <span>{{$trendingMovie->get('movie')->getProperty('imdbRating')}}</span>
@@ -224,9 +256,22 @@
 
                         <div class="card-overlay">
 
-                            <div class="bookmark">
-                                <ion-icon name="bookmark-outline"></ion-icon>
-                            </div>
+                            {{-- if user is not connected or he didn't bookmark this movie--}}
+                            @if(Auth::user() == null  || !Users::isBookmarked(Auth::user()->id, $newestMovie->get('movie')['id'] ))
+                                <form action="{{route('bookmark', $newestMovie->get('movie')['id'])}}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="bookmark">
+                                        <ion-icon name="bookmark-outline"></ion-icon>
+                                    </button>
+                                </form>
+                            @else
+                                <form action="{{route('UnBookmark', $newestMovie->get('movie')['id'])}}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="bookmark">
+                                        <ion-icon name="checkmark-circle-outline"></ion-icon>
+                                    </button>
+                                </form>
+                            @endif
 
                             <div class="rating">
                                 <ion-icon name="star-outline"></ion-icon>
