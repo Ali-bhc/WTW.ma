@@ -133,4 +133,15 @@ namespace App\DAOs;
 
             return app(Neo4j::class)->run($query);
         }
+
+
+
+        /**
+         * Get all movies bookmarked by a user
+        */
+        public static function getAllBookmarkedMovies($userId){
+            $query = "Match(user:User {userId: $userId})-[:BOOKMARKED]->(movie:Movie) return movie";
+            return app(Neo4j::class)->run($query);
+        }
+
 }

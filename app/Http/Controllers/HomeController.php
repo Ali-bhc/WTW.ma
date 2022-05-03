@@ -40,25 +40,5 @@ class HomeController extends Controller
     }
 
 
-    public function bookmark($movieId){
 
-        $user = Auth::user();
-
-        if(!$user) // if user not connected redirect to login
-        {
-            return redirect()->route('login');
-        }
-
-
-        Users::bookmark($user->id, $movieId);
-        return redirect()->back();
-    }
-
-    public function UnBookmark($movieId){
-
-        $user = Auth::user();
-        Users::unBookmark($user->id, $movieId);
-
-        return redirect()->back();
-    }
 }

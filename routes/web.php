@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\RecommendationController;
@@ -24,14 +26,16 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::post('/bookmark/{movieId}' , [HomeController::class, 'bookmark'])->name('bookmark');
+Route::post('/bookmark/{movieId}' , [BookmarkController::class, 'bookmark'])->name('bookmark');
 
-Route::post('/unBookmark/{movieId}' , [HomeController::class, 'UnBookmark'])->name('UnBookmark');
+Route::post('/unBookmark/{movieId}' , [BookmarkController::class, 'UnBookmark'])->name('UnBookmark');
 
 Route::get('/movie/{id}', [MovieController::class, 'index'])->name('movie');
 
 Route::get('/person/{id}', [PersonController::class, 'index'])->name('person');
 
-Route::get('/ForYou', [RecommendationController::class, 'index'])->name('ForYou')->middleware('auth');
+Route::get('/bookmarked', [BookmarkController::class, 'bookmarked'])->name('bookmarked')->middleware('auth');
+
+Route::get('/foryou', [RecommendationController::class, 'index'])->name('foryou')->middleware('auth');
 
 

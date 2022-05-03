@@ -45,7 +45,7 @@
                                     try{
                                         $death = $person->get('person')->getProperty('died')->convertToBolt();
                                         $diff = date_diff(date_create($birth), date_create($death));
-                                        echo   ' -> ' . $death . ' (' . $diff->format('%y') . ' Years old )';
+                                        echo   ' -> died ' . $death . ' (' . $diff->format('%y') . ' Years old )';
                                     }catch (\Laudis\Neo4j\Exception\PropertyDoesNotExistException $e)
                                     {
                                         $diff = date_diff(date_create($birth), date_create($today));

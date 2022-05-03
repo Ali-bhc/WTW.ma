@@ -54,6 +54,7 @@ nav { margin-right: 200px;}
 
 .navbar-nav{
     display: flex;
+    margin-left: 30px;
 }
 
 .navbar li:not(:last-child){ margin-right: 60px;}
@@ -74,7 +75,7 @@ nav { margin-right: 200px;}
 
 .navbar-form{
     position: relative;
-    margin-right: 50px;
+    margin-right: 40px;
 }
 
 .navbar-form-search{
@@ -182,6 +183,10 @@ footer {
 .social-links ion-icon{
     font-size: 25px;
     margin-right: 20px;
+}
+
+.social-links ion-icon:hover{
+    color: var(--light-azure);
 }
 
 .footer-links{

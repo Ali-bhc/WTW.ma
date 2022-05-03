@@ -49,10 +49,10 @@
                     <!--navbar navigation-->
                     <nav class="">
                         <ul class="navbar-nav">
-                            <li><a href="#" class="navbar-link">Home</a></li>
+                            <li><a href="{{route('home')}}" class="navbar-link">Home</a></li>
                             <li><a href="#" class="navbar-link">Movies</a></li>
                             <li><a href="#" class="navbar-link">Trending</a></li>
-                            <li><a href="#" class="navbar-link">Actors</a></li>
+                            <li><a href="{{route('bookmarked')}}" class="navbar-link">Bookmarked</a></li>
 
 
 
@@ -170,7 +170,7 @@
 
                             <h4 class="link-heading">Browse</h4>
 
-                            <li class="link-items"><a href="#">Home</a></li>
+                            <li class="link-items"><a href="{{route('home')}}">Home</a></li>
                             <li class="link-items"><a href="#">Movies</a></li>
                             <li class="link-items"><a href="#">Documentaries</a></li>
                             <li class="link-items"><a href="#">Trending</a></li>
@@ -179,7 +179,7 @@
 
                         <ul>
 
-                            <li class="link-items"><a href="#">Other Stuff1</a></li>
+                            <li class="link-items"><a href="{{route('foryou')}}">Recommended for you</a></li>
                             <li class="link-items"><a href="#">Other Stuff2</a></li>
                             <li class="link-items"><a href="#">Other Stuff3</a></li>
                             <li class="link-items"><a href="#">Other Stuff4</a></li>
