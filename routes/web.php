@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\MovieController;
+use App\Http\Controllers\PersonController;
+use App\Http\Controllers\RecommendationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 
@@ -25,8 +28,10 @@ Route::post('/bookmark/{movieId}' , [HomeController::class, 'bookmark'])->name('
 
 Route::post('/unBookmark/{movieId}' , [HomeController::class, 'UnBookmark'])->name('UnBookmark');
 
-Route::get('/movie/{id}', [\App\Http\Controllers\MovieController::class, 'index'])->name('movie');
+Route::get('/movie/{id}', [MovieController::class, 'index'])->name('movie');
 
-Route::get('/person/{id}', [\App\Http\Controllers\PersonController::class, 'index'])->name('person');
+Route::get('/person/{id}', [PersonController::class, 'index'])->name('person');
+
+Route::get('/ForYou', [RecommendationController::class, 'index'])->name('ForYou')->middleware('auth');
 
 

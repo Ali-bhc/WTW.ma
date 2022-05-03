@@ -78,13 +78,18 @@ namespace App\DAOs;
     }
 
     /**
-     * Function returns n similar movies to the given movie id
+     * Function returns n similar movies to the given movie id,
+     * the recommendations based on the number of actors, genres and directors they have in common
     */
     public static function getNSimilarMovies($movieId, $n){
-        $query = "match (m:Movie) where ID(m) = $movieId
-                    match (m)-[:IN_GENRE]->(genre:Genre)
-                    match (movie:Movie)-[:IN_GENRE]->(genre) where ID(movie) <> ID(m)
-                    return movie limit $n";
+        $query = "MATCH (m:Movie) WHERE ID(m) = $movieId
+                MATCH (m)-[:IN_GENRE]->(g:Genre)<-[:IN_GENRE]-(rec:Movie)
+                WITH m, rec, COUNT(*) AS gs
+                OPTIONAL MATCH (m)<-[:ACTED_IN]-(a:Actor)-[:ACTED_IN]->(rec)
+                WITH m, rec, gs, COUNT(a) AS as
+                OPTIONAL MATCH (m)<-[:DIRECTED]-(d:Director)-[:DIRECTED]->(rec)
+                WITH m, rec, gs, as, COUNT(d) AS ds
+                RETURN rec AS movie, (5*gs)+(3*as)+(4*ds) AS score ORDER BY score DESC LIMIT $n";
         return app(Neo4j::class)->run($query);
     }
 
@@ -109,4 +114,23 @@ namespace App\DAOs;
         }
 
 
+
+
+        /**
+         * get recommended movies for the user passed in argument
+         * Personalized Recommendations Based on Genres
+            Recommend movies similar to those the user has already watched
+        */
+        public static function getNRecommendedMovies($userId, $n){
+            $query = "MATCH (u:User {userId: $userId})-[r:BOOKMARKED]->(m:Movie),
+                      (m)-[:IN_GENRE]->(g:Genre)<-[:IN_GENRE]-(rec:Movie)
+                    WHERE NOT EXISTS( (u)-[:BOOKMARKED]->(rec) )
+                    WITH rec, [g.name, COUNT(*)] AS scores
+                    RETURN rec as movie,
+                    COLLECT(scores) AS scoreComponents,
+                    REDUCE (s=0,x in COLLECT(scores) | s+x[1]) AS score
+                    ORDER BY score DESC LIMIT $n";
+
+            return app(Neo4j::class)->run($query);
+        }
 }

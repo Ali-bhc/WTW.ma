@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <!--Website Icon-->
-        <link rel="icon" href="{{asset('img/logo.png')}}">
+        <link rel="icon" href="{{asset('img/favicon.png')}}">
 
         <!--the title of the current page-->
         <title>@yield('pageTitle')</title>
@@ -224,6 +224,7 @@
         <!--Template Scripts:-->
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+        <script src="https://unpkg.com/neo4j-driver"></script>
 
         @stack('scripts')
 
@@ -231,7 +232,6 @@
         <!------->
 
         <!-- unpkg CDN non-minified -->
-        <script src="https://unpkg.com/neo4j-driver"></script>
 
 
         <script src="{{ asset('js/app.js') }}"></script>
