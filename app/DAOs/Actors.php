@@ -14,4 +14,11 @@ class Actors
 
         return app(Neo4j::class)->run($query);
     }
+
+    public static function getActorsPage($nbr)
+    {
+        $nbr_movies= ($nbr-1)*28;
+        $query="match (actor:Actor) where actor.poster is not null return actor skip $nbr_movies limit 28";
+        return app(Neo4j::class)->run($query);
+    }
 }

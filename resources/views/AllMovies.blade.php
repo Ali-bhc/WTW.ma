@@ -2,7 +2,7 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{asset('css/home.css') . "?" . time()}}" type="text/css">
-    <link rel="stylesheet" href="{{asset('css/filter.css') . "?" . time()}}" type="text/css">
+    <link rel="stylesheet" href="{{asset('css/Allmovies.css') . "?" . time()}}" type="text/css">
 @endpush
 
 @push('scripts')
@@ -16,10 +16,144 @@
 
 
     <section class="movies">
+        <form action="/AllMovies/1">
+            <div class="myfilter">
+            <div class="search_container">
+                <p class="search_title">Search Term</p>
+                <input class="search_input" type="search" placeholder="Search" name="search">
+                <button type="submit" class="search_button">Search</button>
+             </div>
 
-        <h2 class="section-heading"> Movies </h2>
+            <div class="filter_container filter-bar">
+                <!-- Genres -->
+                <div class="filter_item">
+                    <p class="search_filter"> Genre </p>
+                    <select name="genre" class="search_select">
+                        <option class="filter-bar" value="all"> All</option>
+                        @foreach(\App\DAOs\Genres::allGenres() as $genre)
+                            @if( request('genre') == $genre->get('genre')->getProperty('name'))
+                                <option selected="selected" value="{{$genre->get('genre')->getProperty('name')}}">
+                                    {{$genre->get('genre')->getProperty('name')}}
+                                </option>
+                            @else
+                                <option value="{{$genre->get('genre')->getProperty('name')}}">
+                                    {{$genre->get('genre')->getProperty('name')}}
+                                </option>
+                            @endif
+                        @endforeach
+                    </select>
+                </div>
+                <!-- Ratings -->
+                <div class="filter_item">
+                    <p class="search_filter"> Rating </p>
+                    <select name="rating" class="search_select">
+                        <option value="all">All</option>
+                        @for($i=1;$i<10;$i++)
+                            @if( request('rating') == $i)
+                                <option selected="selected" value="{{$i}}">
+                                    +{{$i}}
+                                </option>
+                            @else
+                        <option value="{{$i}}">+{{$i}}</option>
 
-        <div class="movies-grid" id="featured-movies">
+                            @endif
+                        @endfor
+                    </select>
+                </div>
+                <!-- Years -->
+                <div class="filter_item">
+                    <p class="search_filter"> Year </p>
+                    <select name="year" class="search_select">
+                        <option value="all">All</option>
+                        @foreach($years as $year)
+                            @if(request('year')==$year)
+                            <option selected="selected" value="{{$year}}">{{$year}}</option>
+                            @endif
+                        <option value="{{$year}}">{{$year}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                 <!-- languages -->
+                <div class="filter_item">
+                    <p class="search_filter">Languages</p>
+                    <select name="language" class="search_select">
+                        <option value="all">All</option>
+                        @foreach(\App\DAOs\Movies::getAllLanguages() as $language)
+                            @if(request('language')==$language->get('lang'))
+                             <option selected="selected" value="{{$language->get('lang')}}">{{$language->get('lang')}}</option>
+                            @endif
+                        <option value="{{$language->get('lang')}}">{{$language->get('lang')}}</option>
+
+                        @endforeach
+                    </select>
+                </div>
+                <!-- Order By -->
+                <div class="filter_item">
+                    <p class="search_filter"> Order By </p>
+                    <select name="orderby" class="search_select">
+                        <option value="all">All</option>
+                        @foreach($conditions as $condition)
+                            @if(request('orderby') == $condition)
+                            <option value="{{$condition}}" selected="selected">{{$condition}}</option>
+                            @else
+                            <option value="{{$condition}}">{{$condition}}</option>
+                            @endif
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        </div>
+        </form>
+
+        <div class="pagination">
+
+            @for($i=1 ; $i<=(int)($nbr/28) ; $i++)
+                @if( request()->route('page') == (string)($i))
+                    <a href="/AllMovies/1/?{{request()->getQueryString()}}">First</a>
+                    @if($i > 1)
+                        <a href="/AllMovies/{{$i-1}}/?{{request()->getQueryString()}}">&laquo;</a>
+                    @else
+                        <a style="pointer-events: none;" href="/AllMovies/{{$i}}/?{{request()->getQueryString()}}">&laquo;</a>
+                    @endif
+
+                    @if( $i>= 3 && $i<= (int)($nbr/28) -3)
+                        @for($j=$i-2 ; $j<$i+3 ; $j++)
+                            @if($j == $i)
+                                <a class="active" href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
+                            @else
+                                <a href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
+                            @endif
+                        @endfor
+                    @elseif($i < 3)
+                        @for($j=1;$j<6;$j++)
+                            @if($j == $i)
+                                <a class="active" href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
+                            @else
+                                <a href="/AllMovies/{{$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
+                            @endif
+                        @endfor
+                    @else
+                        @for($j=(int)($nbr/28)-4 ;$j<=(int)($nbr/28);$j++)
+                            @if($j == $i)
+                                <a class="active" href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
+                            @else
+                                <a href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
+                            @endif
+                        @endfor
+                    @endif
+
+                    @if($i < (int)($nbr/28))
+                        <a href="/AllMovies/{{(int)$i+1}}/?{{request()->getQueryString()}}">&raquo;</a>
+                    @else
+                        <a style="pointer-events: none;" href="/AllMovies/{{(int)$i}}/?{{request()->getQueryString()}}">&raquo;</a>
+                    @endif
+                    <a href="/AllMovies/{{(int)($nbr/28)}}/?{{request()->getQueryString()}}">Last</a>
+
+                @endif
+            @endfor
+        </div>
+
+        <div class="movies-grid" id="feared-movies">
 
             @foreach($Movies as $movie)
                 <div class="movie-card">
@@ -71,13 +205,51 @@
         </div>
 
         <div class="pagination">
-            <a href="#">&laquo;</a>
-            @for($i=0 ; $i< (int)\App\DAOs\Movies::getMoviesCount() /800;$i++)
-                <a href="./{{$i}}">{{$i}}</a>
-            <!--    <a class="active" href="#">2</a>-->
 
+            @for($i=1 ; $i<=(int)($nbr/28) ; $i++)
+                @if( request()->route('page') == (string)($i))
+                    <a href="/AllMovies/1/?{{request()->getQueryString()}}">First</a>
+                    @if($i > 1)
+                        <a href="/AllMovies/{{$i-1}}/?{{request()->getQueryString()}}">&laquo;</a>
+                    @else
+                        <a style="pointer-events: none;" href="/AllMovies/{{$i}}/?{{request()->getQueryString()}}">&laquo;</a>
+                    @endif
+
+                    @if( $i>= 3 && $i<= (int)($nbr/28) -3)
+                        @for($j=$i-2 ; $j<$i+3 ; $j++)
+                            @if($j == $i)
+                                <a class="active" href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
+                            @else
+                                <a href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
+                            @endif
+                        @endfor
+                    @elseif($i < 3)
+                        @for($j=1;$j<6;$j++)
+                            @if($j == $i)
+                                <a class="active" href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
+                            @else
+                                <a href="/AllMovies/{{$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
+                            @endif
+                        @endfor
+                    @else
+                        @for($j=(int)($nbr/28)-4 ;$j<=(int)($nbr/28);$j++)
+                            @if($j == $i)
+                                <a class="active" href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
+                            @else
+                                <a href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
+                            @endif
+                        @endfor
+                    @endif
+
+                    @if($i < (int)($nbr/28))
+                        <a href="/AllMovies/{{(int)$i+1}}/?{{request()->getQueryString()}}">&raquo;</a>
+                    @else
+                        <a style="pointer-events: none;" href="/AllMovies/{{(int)$i}}/?{{request()->getQueryString()}}">&raquo;</a>
+                    @endif
+                    <a href="/AllMovies/{{(int)($nbr/28)}}/?{{request()->getQueryString()}}">Last</a>
+
+                @endif
             @endfor
-            <a href="#">&raquo;</a>
         </div>
 
     </section>

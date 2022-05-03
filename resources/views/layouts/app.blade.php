@@ -45,8 +45,8 @@
                     <!--navbar navigation-->
                     <nav class="">
                         <ul class="navbar-nav">
-                            <li><a href="#" class="navbar-link">Home</a></li>
-                            <li><a href="#" class="navbar-link">Movies</a></li>
+                            <li><a href="/" class="navbar-link">Home</a></li>
+                            <li><a href="/AllMovies/1" class="navbar-link">Movies</a></li>
                             <li><a href="#" class="navbar-link">Trending</a></li>
                             <li><a href="#" class="navbar-link">Actors</a></li>
 
