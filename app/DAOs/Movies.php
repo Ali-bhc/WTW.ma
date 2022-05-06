@@ -61,31 +61,23 @@ class Movies
     /**
      * Function returns 28 movies for n page
      */
-    public static function getMoviesPage( $n)
-    {
-        $nbr_movies=($n-1)*28;
-        $query = "Match(movie:Movie) return movie skip $nbr_movies limit 28";
-        return app(Neo4j::class)->run($query);
-    }
-    /**
-     * Function returns 28 movies for n page
-     */
     public static function getMoviesbyFilter($page,$search, $genre , $rating ,$year , $language , $orderby)
     {
         // $nbr_movies returns the movies number which would skip for a page
         $nbr_movies= ($page-1)*28;
         $query = "match(genre:Genre)<-[:IN_GENRE]-(movie:Movie) ";
 
-        //searching
-        if ($search != "" && $search != "all")
-            $query .= " where movie.title contains '$search' and ";
+        // filter by genre
+        if ($genre != "" && $genre !='all')
+            $query .= "-[:IN_GENRE]->(genre:Genre) where genre.name='$genre' and ";
         else
             $query .= "where ";
 
+        //searching
+        if ($search != "" && $search != "all")
+            $query .= "toLower(movie.title) contains toLower('$search') and ";
 
-        // filter by genre
-        if ($genre != "" && $genre !='all')
-            $query .= "genre.name='$genre' and ";
+
 
         //filter by imdbrating
         if ( $rating != "" && $rating != "all")
@@ -93,8 +85,14 @@ class Movies
 
         //filter by year
         if ( $year != "" && $year !="all") {
-
-            $query .= substr($year,5,4)."< movie.year <".substr($year,0,4)." and ";
+            if ($year =="2022")
+                $query.=" movie.year =".substr($year,0,4)." and ";
+            elseif ($year == "older") {
+                $query .= "movie.year < 2000 and ";
+            }
+            else{
+                $query .= substr($year,5,4)."<= movie.year <=".substr($year,0,4)." and ";
+            }
         }
 
         //filter by language
@@ -155,18 +153,18 @@ class Movies
     public static function getMoviesCount($search, $genre , $rating ,$year , $language)
 
     {
-        $query = "match(genre:Genre)<-[:IN_GENRE]-(movie:Movie) ";
-
-        //searching
-        if ($search != "" && $search != "all")
-            $query .= " where movie.title contains '$search' and ";
-        else
-            $query .= "where ";
-
+        $query = "match(movie:Movie)";
 
         // filter by genre
         if ($genre != "" && $genre !='all')
-            $query .= "genre.name='$genre' and ";
+            $query .= "-[:IN_GENRE]->(genre:Genre) where genre.name='$genre' and ";
+        else
+            $query .= "where ";
+
+        //searching
+        if ($search != "" && $search != "all")
+            $query .= "toLower(movie.title) contains toLower('$search') and ";
+
 
         //filter by imdbrating
         if ( $rating != "" && $rating != "all")
@@ -174,8 +172,13 @@ class Movies
 
         //filter by year
         if ( $year != "" && $year !="all") {
-
-            $query .= substr($year,5,4)."< movie.year <".substr($year,0,4)." and ";
+            if ($year =="2022")
+                $query.=" movie.year =".substr($year,0,4)." and ";
+            elseif ($year == "older") {
+                $query .= "movie.year < 2000 and ";
+            }
+            else
+            $query .= substr($year,5,4)."<= movie.year <=".substr($year,0,4)." and ";
         }
 
         //filter by language
@@ -183,7 +186,7 @@ class Movies
             $query .= "movie.languages[0] = '$language' and ";
 
 
-        $query .= "movie.poster is not null return distinct count(movie) as nbr";
+        $query .= "movie.poster is not null return count(distinct movie) as nbr";
         //dd($query);
         return app(Neo4j::class)->run($query)[0]->get('nbr');
     }

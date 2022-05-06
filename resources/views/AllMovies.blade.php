@@ -2,7 +2,7 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{asset('css/home.css') . "?" . time()}}" type="text/css">
-    <link rel="stylesheet" href="{{asset('css/Allmovies.css') . "?" . time()}}" type="text/css">
+    <link rel="stylesheet" href="{{asset('css/filter.css') . "?" . time()}}" type="text/css">
 @endpush
 
 @push('scripts')
@@ -20,7 +20,7 @@
             <div class="myfilter">
             <div class="search_container">
                 <p class="search_title">Search Term</p>
-                <input class="search_input" type="search" placeholder="Search" name="search">
+                <input class="search_input" type="search" placeholder="Search" name="search" value="{{request('search')}}">
                 <button type="submit" class="search_button">Search</button>
              </div>
 
@@ -68,8 +68,9 @@
                         @foreach($years as $year)
                             @if(request('year')==$year)
                             <option selected="selected" value="{{$year}}">{{$year}}</option>
+                            @else
+                            <option value="{{$year}}">{{$year}}</option>
                             @endif
-                        <option value="{{$year}}">{{$year}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -106,51 +107,86 @@
         </form>
 
         <div class="pagination">
+            @if($nbrpage >= 5)
+                @for($i=1 ; $i<=$nbrpage ; $i++)
+                    @if( request()->route('page') == (string)($i))
+                        <a href="/AllMovies/1/?{{request()->getQueryString()}}">First</a>
+                        @if($i > 1)
+                            <a href="/AllMovies/{{$i-1}}/?{{request()->getQueryString()}}">&laquo;</a>
+                        @else
+                            <a style="pointer-events: none;" href="/AllMovies/{{$i}}/?{{request()->getQueryString()}}">&laquo;</a>
+                        @endif
 
-            @for($i=1 ; $i<=(int)($nbr/28) ; $i++)
-                @if( request()->route('page') == (string)($i))
-                    <a href="/AllMovies/1/?{{request()->getQueryString()}}">First</a>
-                    @if($i > 1)
-                        <a href="/AllMovies/{{$i-1}}/?{{request()->getQueryString()}}">&laquo;</a>
-                    @else
-                        <a style="pointer-events: none;" href="/AllMovies/{{$i}}/?{{request()->getQueryString()}}">&laquo;</a>
+                        @if( $i> 3 && $i<= $nbrpage -3)
+                            @for($j=$i-2 ; $j<$i+3 ; $j++)
+                                @if($j == $i)
+                                    <a class="active" href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
+                                @else
+                                    <a href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
+                                @endif
+                            @endfor
+                        @elseif($i <= 3)
+                            @for($j=1;$j<6;$j++)
+                                @if($j == $i)
+                                    <a class="active" href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
+                                @else
+                                    <a href="/AllMovies/{{$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
+                                @endif
+                            @endfor
+                        @else
+                            @for($j=($nbrpage)-4 ;$j<=($nbrpage);$j++)
+                                @if($j == $i)
+                                    <a class="active" href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
+                                @else
+                                    <a href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
+                                @endif
+                            @endfor
+                        @endif
+
+                        @if($i < (int)($nbrpage))
+                            <a href="/AllMovies/{{(int)$i+1}}/?{{request()->getQueryString()}}">&raquo;</a>
+                        @else
+                            <a style="pointer-events: none;" href="/AllMovies/{{(int)$i}}/?{{request()->getQueryString()}}">&raquo;</a>
+                        @endif
+
+                        <a href="/AllMovies/{{$nbrpage}}/?{{request()->getQueryString()}}">Last</a>
+
+                    @endif
+                @endfor
+
+            @else
+                @if($nbr == 0)
+                    <p> resultat  introuvable !!!</p>
+                @else
+                    @if(request()->route('page') == 1)
+                        <a href="/AllMovies/1/?{{request()->getQueryString()}}">First</a>
+                        <a style="pointer-events: none;" href="/AllMovies/1/?{{request()->getQueryString()}}">&laquo;</a>
+                    @elseif(request()->route('page')> 1 && request()->route('page')<=(string)($nbrpage))
+                        <a href="/AllMovies/{{request()->route('page')-1}}/?{{request()->getQueryString()}}">&laquo;</a>
                     @endif
 
-                    @if( $i>= 3 && $i<= (int)($nbr/28) -3)
-                        @for($j=$i-2 ; $j<$i+3 ; $j++)
-                            @if($j == $i)
-                                <a class="active" href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
-                            @else
-                                <a href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
-                            @endif
-                        @endfor
-                    @elseif($i < 3)
-                        @for($j=1;$j<6;$j++)
-                            @if($j == $i)
-                                <a class="active" href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
-                            @else
-                                <a href="/AllMovies/{{$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
-                            @endif
-                        @endfor
-                    @else
-                        @for($j=(int)($nbr/28)-4 ;$j<=(int)($nbr/28);$j++)
-                            @if($j == $i)
-                                <a class="active" href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
-                            @else
-                                <a href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
-                            @endif
-                        @endfor
-                    @endif
+                    @for($i=1 ; $i<=(int)($nbrpage) ; $i++)
 
-                    @if($i < (int)($nbr/28))
-                        <a href="/AllMovies/{{(int)$i+1}}/?{{request()->getQueryString()}}">&raquo;</a>
-                    @else
+                        @if( request()->route('page') == (string)($i))
+                            <a class="active" href="/AllMovies/{{(int)$i}}/?{{request()->getQueryString()}}">{{(int)$i}}</a>
+
+                        @else
+                            <a href="/AllMovies/{{(int)$i}}/?{{request()->getQueryString()}}">{{(int)$i}}</a>
+
+                        @endif
+                    @endfor
+
+
+                    @if(request()->route('page') == (string)($nbrpage))
                         <a style="pointer-events: none;" href="/AllMovies/{{(int)$i}}/?{{request()->getQueryString()}}">&raquo;</a>
+                    @else
+                        <a href="/AllMovies/{{(int)$i}}/?{{request()->getQueryString()}}">&raquo;</a>
                     @endif
-                    <a href="/AllMovies/{{(int)($nbr/28)}}/?{{request()->getQueryString()}}">Last</a>
+                    <a href="/AllMovies/{{(int)(($nbrpage))}}/?{{request()->getQueryString()}}">Last</a>
 
                 @endif
-            @endfor
+            @endif
+
         </div>
 
         <div class="movies-grid" id="feared-movies">
@@ -205,51 +241,86 @@
         </div>
 
         <div class="pagination">
+            @if($nbrpage >= 5)
+                @for($i=1 ; $i<=$nbrpage ; $i++)
+                    @if( request()->route('page') == (string)($i))
+                        <a href="/AllMovies/1/?{{request()->getQueryString()}}">First</a>
+                        @if($i > 1)
+                            <a href="/AllMovies/{{$i-1}}/?{{request()->getQueryString()}}">&laquo;</a>
+                        @else
+                            <a style="pointer-events: none;" href="/AllMovies/{{$i}}/?{{request()->getQueryString()}}">&laquo;</a>
+                        @endif
 
-            @for($i=1 ; $i<=(int)($nbr/28) ; $i++)
-                @if( request()->route('page') == (string)($i))
-                    <a href="/AllMovies/1/?{{request()->getQueryString()}}">First</a>
-                    @if($i > 1)
-                        <a href="/AllMovies/{{$i-1}}/?{{request()->getQueryString()}}">&laquo;</a>
-                    @else
-                        <a style="pointer-events: none;" href="/AllMovies/{{$i}}/?{{request()->getQueryString()}}">&laquo;</a>
+                        @if( $i> 3 && $i<= $nbrpage -3)
+                            @for($j=$i-2 ; $j<$i+3 ; $j++)
+                                @if($j == $i)
+                                    <a class="active" href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
+                                @else
+                                    <a href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
+                                @endif
+                            @endfor
+                        @elseif($i <= 3)
+                            @for($j=1;$j<6;$j++)
+                                @if($j == $i)
+                                    <a class="active" href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
+                                @else
+                                    <a href="/AllMovies/{{$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
+                                @endif
+                            @endfor
+                        @else
+                            @for($j=($nbrpage)-4 ;$j<=($nbrpage);$j++)
+                                @if($j == $i)
+                                    <a class="active" href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
+                                @else
+                                    <a href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
+                                @endif
+                            @endfor
+                        @endif
+
+                        @if($i < (int)($nbrpage))
+                            <a href="/AllMovies/{{(int)$i+1}}/?{{request()->getQueryString()}}">&raquo;</a>
+                        @else
+                            <a style="pointer-events: none;" href="/AllMovies/{{(int)$i}}/?{{request()->getQueryString()}}">&raquo;</a>
+                        @endif
+
+                        <a href="/AllMovies/{{$nbrpage}}/?{{request()->getQueryString()}}">Last</a>
+
+                    @endif
+                @endfor
+
+            @else
+                @if($nbr == 0)
+                    <p></p>
+                @else
+                    @if(request()->route('page') == 1)
+                        <a href="/AllMovies/1/?{{request()->getQueryString()}}">First</a>
+                        <a style="pointer-events: none;" href="/AllMovies/1/?{{request()->getQueryString()}}">&laquo;</a>
+                    @elseif(request()->route('page')> 1 && request()->route('page')<=(string)($nbrpage))
+                        <a href="/AllMovies/{{request()->route('page')-1}}/?{{request()->getQueryString()}}">&laquo;</a>
                     @endif
 
-                    @if( $i>= 3 && $i<= (int)($nbr/28) -3)
-                        @for($j=$i-2 ; $j<$i+3 ; $j++)
-                            @if($j == $i)
-                                <a class="active" href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
-                            @else
-                                <a href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
-                            @endif
-                        @endfor
-                    @elseif($i < 3)
-                        @for($j=1;$j<6;$j++)
-                            @if($j == $i)
-                                <a class="active" href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
-                            @else
-                                <a href="/AllMovies/{{$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
-                            @endif
-                        @endfor
-                    @else
-                        @for($j=(int)($nbr/28)-4 ;$j<=(int)($nbr/28);$j++)
-                            @if($j == $i)
-                                <a class="active" href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
-                            @else
-                                <a href="/AllMovies/{{(int)$j}}/?{{request()->getQueryString()}}">{{(int)$j}}</a>
-                            @endif
-                        @endfor
-                    @endif
+                    @for($i=1 ; $i<=(int)($nbrpage) ; $i++)
 
-                    @if($i < (int)($nbr/28))
-                        <a href="/AllMovies/{{(int)$i+1}}/?{{request()->getQueryString()}}">&raquo;</a>
-                    @else
+                        @if( request()->route('page') == (string)($i))
+                            <a class="active" href="/AllMovies/{{(int)$i}}/?{{request()->getQueryString()}}">{{(int)$i}}</a>
+
+                        @else
+                            <a href="/AllMovies/{{(int)$i}}/?{{request()->getQueryString()}}">{{(int)$i}}</a>
+
+                        @endif
+                    @endfor
+
+
+                    @if(request()->route('page') == (string)($nbrpage))
                         <a style="pointer-events: none;" href="/AllMovies/{{(int)$i}}/?{{request()->getQueryString()}}">&raquo;</a>
+                    @else
+                        <a href="/AllMovies/{{(int)$i}}/?{{request()->getQueryString()}}">&raquo;</a>
                     @endif
-                    <a href="/AllMovies/{{(int)($nbr/28)}}/?{{request()->getQueryString()}}">Last</a>
+                    <a href="/AllMovies/{{(int)(($nbrpage))}}/?{{request()->getQueryString()}}">Last</a>
 
                 @endif
-            @endfor
+            @endif
+
         </div>
 
     </section>
