@@ -192,7 +192,7 @@
         <div class="movies-grid" id="feared-movies">
 
             @foreach($Movies as $movie)
-                <div class="movie-card">
+                <div class="movie-card" onclick='{{ 'window.location = "' . route('movie', $movie->get('movie')['id']). '";' }}'>
                 <h3>  </h3>
                     <div class="card-head">
 
@@ -203,6 +203,22 @@
                             <div class="bookmark">
                                 <ion-icon name="bookmark-outline"></ion-icon>
                             </div>
+                            {{-- if user is not connected or he didn't bookmark this movie--}}
+                            @if(Auth::user() == null  || !Users::isBookmarked(Auth::user()->id, $movie->get('movie')['id'] ))
+                                <form action="{{route('bookmark', $movie->get('movie')['id'])}}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="bookmark">
+                                        <ion-icon name="bookmark-outline"></ion-icon>
+                                    </button>
+                                </form>
+                            @else
+                                <form action="{{route('UnBookmark', $movie->get('movie')['id'])}}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="bookmark">
+                                        <ion-icon name="checkmark-circle-outline"></ion-icon>
+                                    </button>
+                                </form>
+                            @endif
 
                             <div class="rating">
                                 <ion-icon name="star-outline"></ion-icon>

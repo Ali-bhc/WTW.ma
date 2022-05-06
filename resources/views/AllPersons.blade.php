@@ -203,7 +203,7 @@
             <!--person-->
 
             @foreach($Persons as $person)
-                <div class="actor-card">
+                <div class="actor-card" onclick='{{ 'window.location = "' . route('person', $person->get('person')['id']). '";' }}'>
                     <div class="card-head">
                         <img src="{{$person->get('person')->getProperty('poster')}}" alt="" class="card-img">
                     </div>

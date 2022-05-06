@@ -4,10 +4,14 @@
     <link rel="stylesheet" href="{{asset('css/home.css') . "?" . time()}}" type="text/css">
 @endpush
 
+
 @push('scripts')
     <script src="{{asset('js/home.js')}}"></script>
 @endpush
 
+@php
+    use App\DAOs\Users;
+@endphp
 
 @section('pageTitle', 'WTW - Home Page')
 
@@ -15,7 +19,7 @@
 
     <!--Banner section: Random Movie-->
     <section class="banner">
-        <div class="banner-card">
+        <div class="banner-card" onclick='{{ 'window.location = "' . route('movie', $bannerMovie['id']). '";' }}'>
 
             <img src="{{$bannerMovie->getProperty('cover')}}" class="banner-img">
 
@@ -116,18 +120,30 @@
         <!-- Movies Grid Featured -->
         <div class="movies-grid" id="featured-movies">
 
-            @foreach($featuredMovies as $featuredMovie)
-                <div class="movie-card">
-
+            @foreach(\App\DAOs\Movies::getNHighestRatedMovies(14) as $featuredMovie)
+                <div class="movie-card" onclick='{{ 'window.location = "' . route('movie', $featuredMovie->get('movie')['id']). '";' }}'>
                     <div class="card-head">
 
                         <img src="{{$featuredMovie->get('movie')->getProperty('poster')}}" alt="" class="card-img">
 
                         <div class="card-overlay">
 
-                            <div class="bookmark">
-                                <ion-icon name="bookmark-outline"></ion-icon>
-                            </div>
+                            {{-- if user is not connected or he didn't bookmark this movie--}}
+                            @if(Auth::user() == null  || !Users::isBookmarked(Auth::user()->id, $featuredMovie->get('movie')['id'] ))
+                                <form action="{{route('bookmark', $featuredMovie->get('movie')['id'])}}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="bookmark">
+                                        <ion-icon name="bookmark-outline"></ion-icon>
+                                    </button>
+                                </form>
+                            @else
+                                <form action="{{route('UnBookmark', $featuredMovie->get('movie')['id'])}}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="bookmark">
+                                        <ion-icon name="checkmark-circle-outline"></ion-icon>
+                                    </button>
+                                </form>
+                            @endif
 
                             <div class="rating">
                                 <ion-icon name="star-outline"></ion-icon>
@@ -169,14 +185,30 @@
         <div class="movies-grid" id="trending-movies">
 
             <!--Movie-->
-            @foreach($trendingMovies as $trendingMovie)
-                <div class="movie-card">
+            @foreach(\App\DAOs\Movies::getNMostVisitedMovies(14) as $trendingMovie)
+                <div class="movie-card" onclick='{{ 'window.location = "' . route('movie', $trendingMovie->get('movie')['id']). '";' }}'>
                     <div class="card-head">
                         <img src="{{$trendingMovie->get('movie')->getProperty('poster')}}" alt="" class="card-img">
                         <div class="card-overlay">
-                            <div class="bookmark">
-                                <ion-icon name="bookmark-outline"></ion-icon>
-                            </div>
+
+                            {{-- if user is not connected or he didn't bookmark this movie--}}
+                            @if(Auth::user() == null  || !Users::isBookmarked(Auth::user()->id, $trendingMovie->get('movie')['id'] ))
+                                <form action="{{route('bookmark', $trendingMovie->get('movie')['id'])}}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="bookmark">
+                                        <ion-icon name="bookmark-outline"></ion-icon>
+                                    </button>
+                                </form>
+                            @else
+                                <form action="{{route('UnBookmark', $trendingMovie->get('movie')['id'])}}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="bookmark">
+                                        <ion-icon name="checkmark-circle-outline"></ion-icon>
+                                    </button>
+                                </form>
+                            @endif
+
+
                             <div class="rating">
                                 <ion-icon name="star-outline"></ion-icon>
                                 <span>{{$trendingMovie->get('movie')->getProperty('imdbRating')}}</span>
@@ -215,8 +247,8 @@
         <div class="movies-grid" id="newest-movies">
 
             <!--Movie-->
-            @foreach($newestMovies as $newestMovie)
-                <div class="movie-card">
+            @foreach(\App\DAOs\Movies::getNNewestMovies(14) as $newestMovie)
+                <div class="movie-card" onclick='{{ 'window.location = "' . route('movie', $newestMovie->get('movie')['id']). '";' }}'>
 
                     <div class="card-head">
 
@@ -224,9 +256,22 @@
 
                         <div class="card-overlay">
 
-                            <div class="bookmark">
-                                <ion-icon name="bookmark-outline"></ion-icon>
-                            </div>
+                            {{-- if user is not connected or he didn't bookmark this movie--}}
+                            @if(Auth::user() == null  || !Users::isBookmarked(Auth::user()->id, $newestMovie->get('movie')['id'] ))
+                                <form action="{{route('bookmark', $newestMovie->get('movie')['id'])}}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="bookmark">
+                                        <ion-icon name="bookmark-outline"></ion-icon>
+                                    </button>
+                                </form>
+                            @else
+                                <form action="{{route('UnBookmark', $newestMovie->get('movie')['id'])}}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="bookmark">
+                                        <ion-icon name="checkmark-circle-outline"></ion-icon>
+                                    </button>
+                                </form>
+                            @endif
 
                             <div class="rating">
                                 <ion-icon name="star-outline"></ion-icon>
@@ -264,7 +309,9 @@
         </div>
 
         <!--Load more button-->
-        <button class="load-more">LOAD MORE</button>
+        <form action="/AllMovies/1" method="GET">
+                <button class="load-more" type="submit">LOAD MORE</button>
+        </form>
     </section>
 
 
@@ -277,7 +324,7 @@
 
             <!--category-->
 
-            @foreach($genres as $genre)
+            @foreach(\App\DAOs\Genres::allGenresWithNbrOfMovies() as $genre)
                 <div class="category-card">
 
                     <img src="{{$genre->get('genre')->getProperty('img')}}" alt="" class="card-img">
@@ -301,8 +348,8 @@
 
             <!--actor-->
 
-            @foreach($actors as $actor)
-                <div class="actor-card">
+            @foreach(\App\DAOs\Actors::getNRandomActors(21) as $actor)
+                <div class="actor-card" onclick='{{ 'window.location = "' . route('person', $actor->get('actor')['id']). '";' }}'>
                     <div class="card-head">
                         <img src="{{$actor->get('actor')->getProperty('poster')}}" alt="" class="card-img">
                     </div>
@@ -319,8 +366,9 @@
 
 
         <!--Load more button-->
-        <button class="load-more">LOAD MORE</button>
-
+        <form action="/AllPersons/1" method="GET">
+            <button class="load-more" type="submit">LOAD MORE</button>
+        </form>
     </section>
 
 
