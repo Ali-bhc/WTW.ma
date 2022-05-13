@@ -34,6 +34,15 @@ class Persons
 
 
 
+    /**
+     * function to check if a person exists or not
+     */
+    public static function isExistByName($personName){
+
+        $query = "match(person:Person) where tolower(person.name) = '" . strtolower($personName)  ."'
+                        return count(person) > 0 as result";
+        return app(Neo4j::class)->run($query)[0]->get('result');
+    }
 
 
 }

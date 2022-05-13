@@ -68,7 +68,7 @@ body{
     --ionicon-stroke-width: 50px;
 }
 
-.storyline {
+.movie-detail-content .storyline {
     line-height: 1.8;
     margin-bottom: 40px;
 }
@@ -138,7 +138,7 @@ body{
 
 
 .movie-detail-banner{
-    width: 200%;
+    width: 1000%;
 }
 
 

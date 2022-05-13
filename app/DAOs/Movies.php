@@ -144,4 +144,14 @@ namespace App\DAOs;
             return app(Neo4j::class)->run($query);
         }
 
+
+        /**
+         * function to check if a movie exists or not
+        */
+        public static function isExistByTitle($movieTitle){
+            $query = "match(movie:Movie) where tolower(movie.title) = '" . strtolower($movieTitle) . "'
+                        return count(movie) > 0 as result";
+            return app(Neo4j::class)->run($query)[0]->get('result');
+        }
+
 }

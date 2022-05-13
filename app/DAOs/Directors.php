@@ -29,4 +29,6 @@ class Directors
         return app(Neo4j::class)->run($query);
     }
 
+
+
 }

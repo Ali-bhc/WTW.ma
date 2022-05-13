@@ -38,12 +38,12 @@
                             <ion-icon name="calendar-outline"></ion-icon>
                             Birthday:
                             <time datetime="">
-                                {{$person->get('person')->getProperty('born')->convertToBolt()}}
+                                {{ Date("Y-m-d" ,$person->get('person')->getProperty('born')->toDateTime()->getTimestamp()) }}
                                 @php
                                     $today = date('Y-m-d');
-                                    $birth = $person->get('person')->getProperty('born')->convertToBolt();
+                                    $birth = Date("Y-m-d" ,$person->get('person')->getProperty('born')->toDateTime()->getTimestamp());
                                     try{
-                                        $death = $person->get('person')->getProperty('died')->convertToBolt();
+                                        $death = Date("Y-m-d" ,$person->get('person')->getProperty('died')->toDateTime()->getTimestamp());
                                         $diff = date_diff(date_create($birth), date_create($death));
                                         echo   ' -> died ' . $death . ' (' . $diff->format('%y') . ' Years old )';
                                     }catch (\Laudis\Neo4j\Exception\PropertyDoesNotExistException $e)
