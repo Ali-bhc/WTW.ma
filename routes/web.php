@@ -2,13 +2,13 @@
 
 use App\Http\Controllers\AllMoviesController;
 use App\Http\Controllers\AllPersonsController;
+use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\BookmarkController;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\RecommendationController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
 
 
 /*
@@ -45,4 +45,13 @@ Route::get('/bookmarked', [BookmarkController::class, 'bookmarked'])->name('book
 
 Route::get('/foryou', [RecommendationController::class, 'index'])->name('foryou')->middleware('auth');
 
+Route::get('/profile', [ProfileController::class, 'getprofiledata'])->name('UserProfile')->middleware('auth');
+
+Route::get('/Editprofile', [ProfileController::class, 'editprofile'])->name('EditUserProfile')->middleware('auth');
+
+Route::patch('/profile',[ProfileController::class,'updateProfile'])->name('UpdateProfile')->middleware('auth');
+
+//Route::post('/upload',[ProfileController::class, 'getprofiledata'])->name('UserProfile')->middleware('auth');
+
+//Route::post('/upload',function ();
 

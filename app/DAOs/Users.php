@@ -67,5 +67,41 @@ class Users{
         return false;
     }
 
+    public static function getuserdata($id)
+    {
+        $query="MATCH (user:User) where user.userId=$id RETURN user";
+        //dd($query);
+        return app(Neo4j::class)->run($query)[0];
+    }
+    /**
+     * Function update users
+     */
+    public static function updateuser($id, $name ,$IMG_USER )
+    {
+        $query="MATCH (user:User) where user.userId=$id ";
+        if ($name!="")
+        {
+            $query.="set user.name='$name' ,";
+        }
+        if($IMG_USER!="")
+        {
+            $query .= "user.img='$IMG_USER'";
+        }
+        $query.=" RETURN user";
+        //dd($query);
+        return app(Neo4j::class)->run($query)[0];
+
+    }
+
+    /**
+     * Function returns the nbr of moviescount
+     */
+    public static function BookmarkedCount($id)
+    {
+        $query="match (user:User) -[:BOOKMARKED]->(movie:Movie) where user.userId=$id return count(movie) as nbr";
+        return app(Neo4j::class)->run($query)[0]->get('nbr');
+
+    }
+
 
 }

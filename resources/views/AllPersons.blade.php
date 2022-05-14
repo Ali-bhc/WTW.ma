@@ -20,6 +20,7 @@
     <section class="actors">
 
         <form action="/AllPersons/1">
+            @csrf
             <div class="myfilter">
                 <div class="search_container">
                     <p class="search_title">Search Term</p>

@@ -25,7 +25,7 @@ class AllMoviesController extends Controller
             $nbrpage=(int)($nbr/28);
         else
             $nbrpage=(int)(($nbr/28)+1);
-        //dd($nbrpage);
+
         return view('AllMovies', compact(  'Movies','years' , 'conditions','nbr','nbrpage'));
     }
 

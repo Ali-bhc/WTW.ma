@@ -108,7 +108,7 @@
                                 <span>{{Auth::user()->username}}</span>
                             </button>
                             <div class="dropdown-username-content">
-                                <a href="#">Profile</a>
+                                <a href="/profile">Profile</a>
                                 <form action="{{route('logout')}}" method="POST">
                                     @csrf
                                     <button type="submit">

@@ -17,6 +17,7 @@
 
     <section class="movies">
         <form action="/AllMovies/1">
+            @csrf
             <div class="myfilter">
             <div class="search_container">
                 <p class="search_title">Search Term</p>
@@ -204,7 +205,7 @@
                                 <ion-icon name="bookmark-outline"></ion-icon>
                             </div>
                             {{-- if user is not connected or he didn't bookmark this movie--}}
-                            @if(Auth::user() == null  || !Users::isBookmarked(Auth::user()->id, $movie->get('movie')['id'] ))
+                            @if(Auth::user() == null  || !\App\DAOs\Users::isBookmarked(Auth::user()->id, $movie->get('movie')['id'] ))
                                 <form action="{{route('bookmark', $movie->get('movie')['id'])}}" method="POST">
                                     @csrf
                                     <button type="submit" class="bookmark">
