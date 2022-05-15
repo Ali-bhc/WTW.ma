@@ -103,18 +103,85 @@
             <!--Trending - Featured - newest Filter-->
             <div class="filter-radios">
 
-                <input type="radio" name="grade" id="featured-btn" checked>
+                <input type="radio" name="grade" id="newest-btn" checked>
+                <label for="newest-btn">Newest</label>
+
+                <input type="radio" name="grade" id="featured-btn">
                 <label for="featured-btn">Featured</label>
 
                 <input type="radio" name="grade" id="trending-btn">
                 <label for="trending-btn">Trending</label>
 
-                <input type="radio" name="grade" id="newest-btn">
-                <label for="newest-btn">Newest</label>
+
 
                 <div class="checked-radio-bg"></div>
             </div>
 
+        </div>
+
+        <!-- Movies Grid Newest-->
+        <div class="movies-grid" id="newest-movies">
+
+            <!--Movie-->
+            @foreach(\App\DAOs\Movies::getNNewestMovies(14) as $newestMovie)
+                <div class="movie-card" onclick='{{ 'window.location = "' . route('movie', $newestMovie->get('movie')['id']). '";' }}'>
+
+                    <div class="card-head">
+
+                        <img src="{{$newestMovie->get('movie')->getProperty('poster')}}" alt="" class="card-img">
+
+                        <div class="card-overlay">
+
+                            {{-- if user is not connected or he didn't bookmark this movie--}}
+                            @if(Auth::user() == null  || !Users::isBookmarked(Auth::user()->id, $newestMovie->get('movie')['id'] ))
+                                <form action="{{route('bookmark', $newestMovie->get('movie')['id'])}}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="bookmark">
+                                        <ion-icon name="bookmark-outline"></ion-icon>
+                                    </button>
+                                </form>
+                            @else
+                                <form action="{{route('UnBookmark', $newestMovie->get('movie')['id'])}}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="bookmark">
+                                        <ion-icon name="checkmark-circle-outline"></ion-icon>
+                                    </button>
+                                </form>
+                            @endif
+
+                            <div class="rating">
+                                <ion-icon name="star-outline"></ion-icon>
+                                <span>{{$newestMovie->get('movie')->getProperty('imdbRating')}}</span>
+                            </div>
+
+                            <div class="genre">
+                                @php
+                                    $newestMoviegenres = \App\DAOs\Movies::getMovieGenresByMovieId($newestMovie->get('movie')['id']);
+                                @endphp
+
+                                @foreach($newestMoviegenres as $genre)
+                                    {{$genre->get('genre')}}
+                                @endforeach
+                            </div>
+
+                            <div class="view-details">
+                                <span class="button-view-details">View Details</span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <h3 class="card-title"> {{$newestMovie->get('movie')->getProperty('title')}} </h3>
+
+                        <div class="card-info">
+                            <div class="card-year"> {{$newestMovie->get('movie')->getProperty('year')}} </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            @endforeach
         </div>
 
         <!-- Movies Grid Featured -->
@@ -243,70 +310,7 @@
 
         </div>
 
-        <!-- Movies Grid Newest-->
-        <div class="movies-grid" id="newest-movies">
 
-            <!--Movie-->
-            @foreach(\App\DAOs\Movies::getNNewestMovies(14) as $newestMovie)
-                <div class="movie-card" onclick='{{ 'window.location = "' . route('movie', $newestMovie->get('movie')['id']). '";' }}'>
-
-                    <div class="card-head">
-
-                        <img src="{{$newestMovie->get('movie')->getProperty('poster')}}" alt="" class="card-img">
-
-                        <div class="card-overlay">
-
-                            {{-- if user is not connected or he didn't bookmark this movie--}}
-                            @if(Auth::user() == null  || !Users::isBookmarked(Auth::user()->id, $newestMovie->get('movie')['id'] ))
-                                <form action="{{route('bookmark', $newestMovie->get('movie')['id'])}}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="bookmark">
-                                        <ion-icon name="bookmark-outline"></ion-icon>
-                                    </button>
-                                </form>
-                            @else
-                                <form action="{{route('UnBookmark', $newestMovie->get('movie')['id'])}}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="bookmark">
-                                        <ion-icon name="checkmark-circle-outline"></ion-icon>
-                                    </button>
-                                </form>
-                            @endif
-
-                            <div class="rating">
-                                <ion-icon name="star-outline"></ion-icon>
-                                <span>{{$newestMovie->get('movie')->getProperty('imdbRating')}}</span>
-                            </div>
-
-                            <div class="genre">
-                                @php
-                                    $newestMoviegenres = \App\DAOs\Movies::getMovieGenresByMovieId($newestMovie->get('movie')['id']);
-                                @endphp
-
-                                @foreach($newestMoviegenres as $genre)
-                                    {{$genre->get('genre')}}
-                                @endforeach
-                            </div>
-
-                            <div class="view-details">
-                                <span class="button-view-details">View Details</span>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="card-body">
-                        <h3 class="card-title"> {{$newestMovie->get('movie')->getProperty('title')}} </h3>
-
-                        <div class="card-info">
-                            <div class="card-year"> {{$newestMovie->get('movie')->getProperty('year')}} </div>
-
-                        </div>
-                    </div>
-
-                </div>
-            @endforeach
-        </div>
 
         <!--Load more button-->
         <form action="/AllMovies/1" method="GET">
