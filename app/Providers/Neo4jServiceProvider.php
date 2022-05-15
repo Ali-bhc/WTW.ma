@@ -22,15 +22,11 @@ class Neo4jServiceProvider extends ServiceProvider
     }
 
     protected function getClient(){
-
         $password = config('database.connections.neo4j.password');
         $username = config('database.connections.neo4j.username');
         $protocol = config('database.connections.neo4j.protocol');
-
         $auth = Authenticate::basic($username, $password);
-
         $client = ClientBuilder::create()->withDriver($protocol, $this->getConnectionString(), $auth)->build();
-
         return $client;
     }
 

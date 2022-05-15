@@ -20,6 +20,13 @@ const navbarSearchBtn = document.querySelector('.navbar-search-btn');
 
 function filterByFTN()
 {
+    if(btnNewest.checked)
+    {
+        trendinggMovies.classList.add("hide-class");
+        featuredgMovies.classList.add("hide-class");
+        newestMovies.classList.remove("hide-class");
+    }
+
     if(btnFetured.checked)
     {
         featuredgMovies.classList.remove("hide-class");
@@ -34,13 +41,6 @@ function filterByFTN()
         trendinggMovies.classList.remove("hide-class");
         featuredgMovies.classList.add("hide-class");
         newestMovies.classList.add("hide-class");
-    }
-
-    if(btnNewest.checked)
-    {
-        trendinggMovies.classList.add("hide-class");
-        featuredgMovies.classList.add("hide-class");
-        newestMovies.classList.remove("hide-class");
     }
 }
 
