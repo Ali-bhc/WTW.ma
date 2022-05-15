@@ -309,7 +309,9 @@
         </div>
 
         <!--Load more button-->
-        <button class="load-more">LOAD MORE</button>
+        <form action="/AllMovies/1" method="GET">
+                <button class="load-more" type="submit">LOAD MORE</button>
+        </form>
     </section>
 
 
@@ -364,8 +366,9 @@
 
 
         <!--Load more button-->
-        <button class="load-more">LOAD MORE</button>
-
+        <form action="/AllPersons/1" method="GET">
+            <button class="load-more" type="submit">LOAD MORE</button>
+        </form>
     </section>
 
 

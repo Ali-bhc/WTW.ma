@@ -50,7 +50,7 @@
                     <nav class="">
                         <ul class="navbar-nav">
                             <li><a href="{{route('home')}}" class="navbar-link">Home</a></li>
-                            <li><a href="#" class="navbar-link">Movies</a></li>
+                            <li><a href="/AllMovies/1" class="navbar-link">Movies</a></li>
                             <li><a href="#" class="navbar-link">Trending</a></li>
                             <li><a href="{{route('bookmarked')}}" class="navbar-link">Bookmarked</a></li>
 
@@ -108,7 +108,7 @@
                                 <span>{{Auth::user()->username}}</span>
                             </button>
                             <div class="dropdown-username-content">
-                                <a href="#">Profile</a>
+                                <a href="/profile">Profile</a>
                                 <form action="{{route('logout')}}" method="POST">
                                     @csrf
                                     <button type="submit">
