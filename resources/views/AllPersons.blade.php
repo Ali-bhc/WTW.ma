@@ -49,19 +49,22 @@
                     </div>
                     <!-- Ratings -->
                     <div class="filter_item">
-                        <p class="search_filter"> Director </p>
+                        <p class="search_filter"> Type </p>
                         <select name="type" class="search_select">
-                            <option value="all">Persons</option>
 
                             @if(request('type')=="director")
+                                <option value="all">Person</option>
+                                <option  value="">Actor</option>
                                 <option selected="selected" value="director">Director</option>
-                                <option  value="actor">Actor</option>
                             @elseif(request('type')=="actor")
+                                <option value="all">Person</option>
                                 <option selected="selected" value="actor">Actor</option>
                                 <option  value="director">Director</option>
                             @else
-                                <option selected="selected" value="actor">Actor</option>
+                                <option selected="selected" value="all">Person</option>
                                 <option  value="director">Director</option>
+                                <option  value="actor">Actor</option>
+
                             @endif
                         </select>
                     </div>
