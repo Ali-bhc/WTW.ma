@@ -186,8 +186,8 @@ namespace App\DAOs;
 
             $query .= "movie.poster is not null return distinct movie ";
 
-            if ($orderby != "" && $orderby != "all") {
-                $query .= "order by ";
+            if ($orderby != "") {
+                $query .= " order by ";
                 switch ($orderby) {
                     case "Latest":
                         $query .= " movie.year desc ";
@@ -213,9 +213,14 @@ namespace App\DAOs;
                     case "Alphabitical":
                         $query .= " movie.title ";
                         break;
+                    default:
+                        $query .= " movie.year desc ";
                 }
             }
-            $query .= "skip $nbr_movies limit 28";
+            else{
+                $query .= " order by movie.year desc ";
+            }
+            $query .= " skip $nbr_movies limit 28 ";
             //dd($query);
             return app(Neo4j::class)->run($query);
         }

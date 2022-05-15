@@ -43,7 +43,7 @@
                     </div>
                 <hr>
                     <div class="data">
-                        <p class="Usertitle">Bookmarks Movies:</p>
+                        <p class="Usertitle">Bookmarked Movies:</p>
                         <p>{{$bookmarkedcount}}</p>
                     </div>
                 <hr>

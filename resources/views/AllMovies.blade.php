@@ -12,11 +12,21 @@
 
 @section('pageTitle', 'All movies page')
 
+@php
+    $Movies = \App\DAOs\Movies::getMoviesbyFilter($page,$search ,$genre, $rating,$year,$language,$orderby);
+    $nbr = \App\DAOs\Movies::getMoviesCount($search ,$genre, $rating,$year,$language);
+
+    if ($nbr%28 == 0)
+        $nbrpage=(int)($nbr/28);
+    else
+        $nbrpage=(int)(($nbr/28)+1);
+@endphp
+
 @section('content')
 
 
     <section class="movies">
-        <form action="/AllMovies/1">
+        <form action="{{route('AllMovies', 1)}}">
             @csrf
             <div class="myfilter">
             <div class="search_container">
