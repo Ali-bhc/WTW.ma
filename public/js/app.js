@@ -1,5 +1,11 @@
 
-const driver = neo4j.driver("bolt://localhost:7687", neo4j.auth.basic("neo4j", "recommendations"));
+//local
+//const driver = neo4j.driver("bolt://localhost:7687", neo4j.auth.basic("neo4j", "recommendations"));
+
+//remote
+const driver = neo4j.driver("neo4j+s://0aa436aa.databases.neo4j.io", neo4j.auth.basic("neo4j", "AoFLWSx1iZz4-pI8U2jbj6GhyrnEwYUpYQLlSVh1Fj8"));
+
+
 const session = driver.session({defaultAccessMode: neo4j.WRITE });
 
 try {
